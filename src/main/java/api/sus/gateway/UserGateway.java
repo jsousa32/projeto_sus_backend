@@ -1,6 +1,8 @@
 package api.sus.gateway;
 
+import api.sus.model.dto.Pacient;
 import api.sus.model.dto.User;
+import api.sus.model.schema.PacientSchema;
 import api.sus.model.schema.UserSchema;
 import api.sus.repository.UserRepository;
 import api.sus.utils.Mapper;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Component;
  * The Class UserGateway
  *
  * @author João Lucas Silva de Sousa
- * @sincer 13/02/2024
+ * @sincer 18/02/2024
  */
 @Component
 public class UserGateway {
@@ -25,20 +27,17 @@ public class UserGateway {
         this.userRepository = userRepository;
     }
 
-    public boolean existsByDocument(String document) {
-        return userRepository.existsByDocument(document);
-    }
+    public User findByEmail(String email) {
+        UserSchema response = userRepository.findByEmail(email);
 
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+        if(response instanceof PacientSchema) {
+            return mapper.converter(response, Pacient.class);
+        }
+
+        return mapper.converter(response, User.class);
     }
 
     public void save(User user) {
         userRepository.save(mapper.converter(user, UserSchema.class));
-    }
-
-    public User saveAndReturn(User user) {
-        UserSchema response = userRepository.save(mapper.converter(user, UserSchema.class));
-        return mapper.converter(response, User.class);
     }
 }

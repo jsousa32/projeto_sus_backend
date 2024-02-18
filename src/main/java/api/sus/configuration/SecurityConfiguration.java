@@ -14,6 +14,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 /**
  * The Class SecurityConfiguration
@@ -55,11 +60,34 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(h ->
                         h
                                 .requestMatchers(HttpMethod.GET, "/stats").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/pacient/signup").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/forget-password").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/confirm-email-pacient").permitAll()
+                                .requestMatchers(HttpMethod.POST, "auth/reset-password").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors(c -> c.configurationSource(corsConfigurationSource()));
+
 
         return httpSecurity.build();
     }
+
+    private CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.addAllowedOriginPattern("*");
+
+        corsConfiguration.setAllowedMethods(List.of("*"));
+        corsConfiguration.setAllowedHeaders(List.of("*"));
+        corsConfiguration.setExposedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return urlBasedCorsConfigurationSource;
+    }
 }
+

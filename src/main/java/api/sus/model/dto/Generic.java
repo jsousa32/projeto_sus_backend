@@ -1,6 +1,8 @@
 package api.sus.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -12,11 +14,13 @@ import java.util.UUID;
  * @sincer 13/02/2024
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class Generic {
 
     private UUID id;
 
-    private boolean disabled;
+    private boolean disabled = false;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -25,11 +29,11 @@ public abstract class Generic {
     private LocalDateTime disabledAt;
 
 
-    public void setDisabled(boolean disabled) {
+    public void disabled(boolean disabled) {
         if (disabled) this.disabledAt = LocalDateTime.now();
         else this.disabledAt = null;
 
-        this.disabled = true;
+        this.disabled = disabled;
         this.updatedAt = LocalDateTime.now();
     }
 }

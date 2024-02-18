@@ -29,7 +29,5 @@ public interface UserRepository extends JpaRepository<UserSchema, UUID> {
             """)
     UserDetails loadUserByUsername(@Param("email") String email);
 
-    boolean existsByDocument(@Param("document") String document);
-
-    boolean existsByEmail(@Param("email") String email);
+    UserSchema findByEmail(@Param("email") String email);
 }

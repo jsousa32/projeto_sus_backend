@@ -19,7 +19,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_users")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "user_type", length = 1, discriminatorType = DiscriminatorType.INTEGER)
 public class UserSchema extends GenericSchema {
+
+    protected final static String DISCRIMINATOR_ADMINISTRATOR = "0";
+
+    protected final static String DISCRIMINATOR_PACIENT = "1";
+
+    protected final static String DISCRIMINATOR_DOCTOR = "2";
 
     @Column(name = "first_name", length = 20)
     private String firstName;
@@ -33,13 +41,16 @@ public class UserSchema extends GenericSchema {
     @Column(length = 15)
     private String telephone;
 
-    @Column(length = 20)
-    private String document;
-
     @Column(length = 100)
     private String password;
 
     @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @Column(name = "confirmed_email")
+    private boolean confirmedEmail;
+
+    @Column(name = "token_email", length = 6)
+    private String tokenEmail;
 }

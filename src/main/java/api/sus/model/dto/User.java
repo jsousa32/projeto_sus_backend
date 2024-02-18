@@ -1,6 +1,8 @@
 package api.sus.model.dto;
 
 import api.sus.model.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -21,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends Generic {
 
     @NotBlank(message = "O primeiro nome é obrigatório")
@@ -37,13 +41,16 @@ public class User extends Generic {
     @Pattern(regexp = "\\d{11}", message = "O telefone deve possuir apenas 11 caracteres númericos")
     private String telephone;
 
-    @Pattern(regexp = "\\d{6}|\\d{15}", message = "O documento deve possuir apenas 6 ou 15 caracteres númericos, referente ao CRM e ao Número SUS")
-    private String document;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     private UserRole role;
+
+    @JsonIgnore
+    private boolean confirmedEmail = false;
+
+    @JsonIgnore
+    private String tokenEmail = RandomStringUtils.random(6, false, true);
 
     public void encryptPassword() {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
