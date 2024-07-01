@@ -1,7 +1,6 @@
 package api.projeto_sus_backend.user.entities;
 
 import api.projeto_sus_backend.generic.entities.Generic;
-import api.projeto_sus_backend.user.enums.Discriminator;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -18,9 +17,9 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "type", length = 10, discriminatorType = DiscriminatorType.STRING)
 public class UserSchema extends Generic {
 
-    public final static String DESCIMINATOR_PACIENT = Discriminator.PACIENT.getLabel();
+    public final static String DESCIMINATOR_PACIENT = "Pacient";
 
-    public final static String DESCIMINATOR_DOCTOR = Discriminator.DOCTOR.getLabel();
+    public final static String DESCIMINATOR_DOCTOR = "Doctor";
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
