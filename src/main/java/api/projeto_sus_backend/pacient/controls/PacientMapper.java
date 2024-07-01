@@ -19,6 +19,7 @@ public class PacientMapper {
                 .setTelephone(pacient.getTelephone())
                 .setDocument(pacient.getDocument())
                 .setSusNumber(pacient.getSusNumber())
+                .setPassword(pacient.getPassword())
                 .setDisabledAt(pacient.getDisabledAt())
                 .setDisabled(pacient.isDisabled())
                 .build();
