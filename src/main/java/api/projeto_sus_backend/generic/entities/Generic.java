@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.generic.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.MappedSuperclass;
 
 import java.time.LocalDateTime;
@@ -13,12 +14,16 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class Generic {
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime updatedAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime disabledAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean disabled;
 
     public LocalDateTime getCreatedAt() {
