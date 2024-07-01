@@ -51,7 +51,6 @@ public abstract class Generic {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
-        this.updatedAt = LocalDateTime.now();
         this.disabledAt = disabled ? LocalDateTime.now() : null;
     }
 }
