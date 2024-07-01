@@ -4,6 +4,7 @@ import api.projeto_sus_backend.user.entities.UserSchema;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * The Class PacientSchema
@@ -39,7 +40,11 @@ public class PacientSchema extends UserSchema {
 
         public Builder builder() {
             this.pacientSchema = new PacientSchema();
+            return this;
+        }
 
+        public Builder setId(UUID id) {
+            this.pacientSchema.setId(id);
             return this;
         }
 
