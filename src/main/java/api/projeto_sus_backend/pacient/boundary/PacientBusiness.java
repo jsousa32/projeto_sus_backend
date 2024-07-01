@@ -68,13 +68,15 @@ public class PacientBusiness {
      * @param pacient;
      */
     public void update(UUID id, Pacient pacient) {
-        pacientGateway.existsByEmail(pacient.getEmail());
-
         Pacient pacientDB = pacientGateway.findById(id);
 
-        BeanUtils.copyProperties(pacientDB, pacient, "id, susNumber, document");
+        if(!pacientDB.getEmail().equals(pacient.getEmail())) {
+            pacientGateway.existsByEmail(pacient.getEmail());
+        }
 
-        pacientGateway.save(pacient);
+        BeanUtils.copyProperties(pacient, pacientDB, "id", "susNumber", "document", "password");
+
+        pacientGateway.save(pacientDB);
     }
 
 
