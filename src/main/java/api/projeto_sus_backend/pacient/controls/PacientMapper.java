@@ -13,6 +13,7 @@ public class PacientMapper {
 
     public static PacientSchema convert(Pacient pacient) {
         return new PacientSchema.Builder().builder()
+                .setId(pacient.getId())
                 .setFirstName(pacient.getFirstName())
                 .setLastName(pacient.getLastName())
                 .setEmail(pacient.getEmail())
@@ -27,10 +28,12 @@ public class PacientMapper {
 
     public static Pacient convert(PacientSchema pacientSchema) {
         return new Pacient.Builder().builder()
+                .setId(pacientSchema.getId())
                 .setFirstName(pacientSchema.getFirstName())
                 .setLastName(pacientSchema.getLastName())
                 .setEmail(pacientSchema.getEmail())
                 .setTelephone(pacientSchema.getTelephone())
+                .setPassword(pacientSchema.getPassword())
                 .setDocument(pacientSchema.getDocument())
                 .setSusNumber(pacientSchema.getSusNumber())
                 .setCreatedAt(pacientSchema.getCreatedAt())
