@@ -3,6 +3,7 @@ package api.projeto_sus_backend.pacient.boundary;
 import api.projeto_sus_backend.pacient.entities.Pacient;
 import api.projeto_sus_backend.utils.CustomPageable;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(path = "pacient")
+@Tag(name = "Módulo de Pacientes")
 public class PacientController {
 
     private final PacientBusiness pacientBusiness;
