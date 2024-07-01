@@ -19,8 +19,6 @@ public class PacientMapper {
                 .setTelephone(pacient.getTelephone())
                 .setDocument(pacient.getDocument())
                 .setSusNumber(pacient.getSusNumber())
-                .setCreatedAt(pacient.getCreatedAt())
-                .setUpdatedAt(pacient.getUpdatedAt())
                 .setDisabledAt(pacient.getDisabledAt())
                 .setDisabled(pacient.isDisabled())
                 .build();
@@ -38,6 +36,27 @@ public class PacientMapper {
                 .setUpdatedAt(pacientSchema.getUpdatedAt())
                 .setDisabledAt(pacientSchema.getDisabledAt())
                 .setDisabled(pacientSchema.isDisabled())
+                .build();
+    }
+
+    public static Pacient convert(PacientProjections.PacientPageProjection pacientPageProjection) {
+        return new Pacient.Builder().builder()
+                .setId(pacientPageProjection.getId())
+                .setFirstName(pacientPageProjection.getFirstName())
+                .setLastName(pacientPageProjection.getLastName())
+                .setEmail(pacientPageProjection.getEmail())
+                .setTelephone(pacientPageProjection.getTelephone())
+                .build();
+    }
+
+    public static Pacient convert(PacientProjections.PacientResumeProjection pacientResumeProjection) {
+        return new Pacient.Builder().builder()
+                .setId(pacientResumeProjection.getId())
+                .setFirstName(pacientResumeProjection.getFirstName())
+                .setLastName(pacientResumeProjection.getLastName())
+                .setEmail(pacientResumeProjection.getEmail())
+                .setTelephone(pacientResumeProjection.getTelephone())
+                .setDocument(pacientResumeProjection.getDocument())
                 .build();
     }
 }
