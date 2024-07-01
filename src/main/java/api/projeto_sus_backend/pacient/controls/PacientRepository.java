@@ -27,7 +27,8 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
 
     @Query("""
             SELECT p FROM PacientSchema p
-            WHERE (
+            WHERE p.disabled = false
+            AND (
                 UPPER(p.firstName) LIKE UPPER(CONCAT('%', p.firstName, '%')) OR
                 UPPER(p.lastName) LIKE UPPER(CONCAT('%', p.lastName, '%')) OR
                 UPPER(p.susNumber) LIKE UPPER(CONCAT('%', p.susNumber, '%')) OR
@@ -40,13 +41,14 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
     @Query("""
             SELECT p FROM PacientSchema p
             WHERE p.id = :id
+            AND p.disabled = false
             """)
     Optional<PacientProjections.PacientResumeProjection> findByIdResume(@Param("id") UUID id);
 
     @Modifying
     @Query("""
             UPDATE PacientSchema p
-            SET p.disabled = FALSE, p.disabledAt = null
+            SET p.disabled = FALSE, p.disabledAt = null, p.updatedAt = CURRENT_TIMESTAMP
             WHERE p.id = :id
             """)
     void active(UUID id);
@@ -54,7 +56,7 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
     @Modifying
     @Query("""
             UPDATE PacientSchema p
-            SET p.disabled = TRUE, p.disabledAt = CURRENT_TIMESTAMP
+            SET p.disabled = TRUE, p.disabledAt = CURRENT_TIMESTAMP, p.updatedAt = CURRENT_TIMESTAMP
             WHERE p.id = :id
             """)
     void disable(@Param("id") UUID id);
