@@ -1,6 +1,7 @@
 package api.projeto_sus_backend.pacient.entities;
 
 import api.projeto_sus_backend.user.entities.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
  * @author João Lucas Silva de Sousa
  * @sincer 01/07/2024
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pacient extends User {
 
     @NotBlank(message = "Número do SUS obrigatório")
