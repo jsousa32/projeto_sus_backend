@@ -18,7 +18,6 @@ import java.util.UUID;
 })
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", length = 10, discriminatorType = DiscriminatorType.STRING)
-
 public class UserSchema extends GenericSchema {
 
     public final static String DESCIMINATOR_PACIENT = "Pacient";
