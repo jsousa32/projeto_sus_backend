@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 15s
+      retries: 5
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_MULTIPLE_DATABASES=${DB_NAME_APPLICATION},${DB_NAME_KEYCLOAK}
+    volumes:
+      - ./docker_postgres_init.sh:/docker-entrypoint-initdb.d/docker_postgres_init.sh
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${DB_ADMIN_USERNAME}
+      - PGADMIN_DEFAULT_PASSWORD=${DB_ADMIN_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin:/var/lib/pgadmin:rw
+
+volumes:
+  postgres:
+    external: false
+  pgadmin:
+    external: false
