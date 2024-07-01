@@ -46,7 +46,7 @@ public class User extends Generic {
         return id;
     }
 
-    private void setId(UUID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

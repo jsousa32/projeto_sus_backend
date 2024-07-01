@@ -1,6 +1,6 @@
 package api.projeto_sus_backend.user.entities;
 
-import api.projeto_sus_backend.generic.entities.Generic;
+import api.projeto_sus_backend.generic.entities.GenericSchema;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -12,10 +12,14 @@ import java.util.UUID;
  * @sincer 01/07/2024
  */
 @Entity
-@Table(name = "tb_users")
+@Table(name = "tb_users", indexes = {
+        @Index(columnList = "email"),
+        @Index(columnList = "document"),
+})
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", length = 10, discriminatorType = DiscriminatorType.STRING)
-public class UserSchema extends Generic {
+
+public class UserSchema extends GenericSchema {
 
     public final static String DESCIMINATOR_PACIENT = "Pacient";
 
@@ -47,7 +51,7 @@ public class UserSchema extends Generic {
         return id;
     }
 
-    private void setId(UUID id) {
+    protected void setId(UUID id) {
         this.id = id;
     }
 
