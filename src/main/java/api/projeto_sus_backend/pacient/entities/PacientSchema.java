@@ -1,10 +1,7 @@
 package api.projeto_sus_backend.pacient.entities;
 
 import api.projeto_sus_backend.user.entities.UserSchema;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +12,9 @@ import java.time.LocalDateTime;
  * @sincer 01/07/2024
  */
 @Entity
-@Table(name = "tb_pacients")
+@Table(name = "tb_pacients", indexes = {
+        @Index(columnList = "susNumber")
+})
 @DiscriminatorValue(UserSchema.DESCIMINATOR_PACIENT)
 public class PacientSchema extends UserSchema {
 
@@ -76,16 +75,6 @@ public class PacientSchema extends UserSchema {
 
         public Builder setDocument(String document) {
             this.pacientSchema.setDocument(document);
-            return this;
-        }
-
-        public Builder setCreatedAt(LocalDateTime createdAt) {
-            this.pacientSchema.setCreatedAt(createdAt);
-            return this;
-        }
-
-        public Builder setUpdatedAt(LocalDateTime updatedAt) {
-            this.pacientSchema.setUpdatedAt(updatedAt);
             return this;
         }
 
