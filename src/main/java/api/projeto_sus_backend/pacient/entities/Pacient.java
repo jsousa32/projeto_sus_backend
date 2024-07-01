@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * The Class Pacient
@@ -37,6 +38,11 @@ public class Pacient extends User {
         public Builder builder() {
             this.pacient = new Pacient();
 
+            return this;
+        }
+
+        public Builder setId(UUID id) {
+            this.pacient.setId(id);
             return this;
         }
 
