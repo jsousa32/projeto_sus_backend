@@ -24,6 +24,11 @@ public class PacientBusiness {
         this.pacientGateway = pacientGateway;
     }
 
+    /**
+     * Metodo responsável por criar um novo paciente
+     *
+     * @param pacient;
+     */
     public void save(Pacient pacient) {
 
         pacientGateway.existsBySusNumber(pacient.getSusNumber());
@@ -35,14 +40,33 @@ public class PacientBusiness {
         pacientGateway.save(pacient);
     }
 
+    /**
+     * Metodo responsável por buscar todos os pacientes
+     *
+     * @param filter;
+     * @param pageable;
+     * @return Page<Pacient>;
+     */
     public Page<Pacient> findAll(String filter, Pageable pageable) {
         return pacientGateway.findAll(filter, pageable);
     }
 
+    /**
+     * Metodo responsável por buscar um paciente
+     *
+     * @param id;
+     * @return Pacient;
+     */
     public Pacient findById(UUID id) {
         return pacientGateway.findByIdResume(id);
     }
 
+    /**
+     * Metodo responsável por atualizar um paciente
+     *
+     * @param id;
+     * @param pacient;
+     */
     public void update(UUID id, Pacient pacient) {
         pacientGateway.existsByEmail(pacient.getEmail());
 
@@ -53,6 +77,21 @@ public class PacientBusiness {
         pacientGateway.save(pacient);
     }
 
+
+    /**
+     * Metodo responsável por reativar um paciente
+     *
+     * @param id;
+     */
+    public void active(UUID id) {
+        pacientGateway.active(id);
+    }
+
+    /**
+     * Metodo responsável por desativar um paciente
+     *
+     * @param id;
+     */
     public void disable(UUID id) {
         pacientGateway.disable(id);
     }
