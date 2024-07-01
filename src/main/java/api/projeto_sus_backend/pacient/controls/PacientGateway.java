@@ -65,6 +65,10 @@ public class PacientGateway {
                 .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
     }
 
+    public void active(UUID id) {
+        pacientRepository.active(id);
+    }
+
     public void disable(UUID id) {
         pacientRepository.disable(id);
     }

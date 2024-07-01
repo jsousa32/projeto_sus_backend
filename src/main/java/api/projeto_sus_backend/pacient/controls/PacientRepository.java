@@ -46,6 +46,14 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
     @Modifying
     @Query("""
             UPDATE PacientSchema p
+            SET p.disabled = FALSE, p.disabledAt = null
+            WHERE p.id = :id
+            """)
+    void active(UUID id);
+
+    @Modifying
+    @Query("""
+            UPDATE PacientSchema p
             SET p.disabled = TRUE, p.disabledAt = CURRENT_TIMESTAMP
             WHERE p.id = :id
             """)
