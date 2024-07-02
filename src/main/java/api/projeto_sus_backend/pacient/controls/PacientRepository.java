@@ -29,11 +29,11 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
             SELECT p FROM PacientSchema p
             WHERE p.disabled = false
             AND (
-                UPPER(p.firstName) LIKE UPPER(CONCAT('%', p.firstName, '%')) OR
-                UPPER(p.lastName) LIKE UPPER(CONCAT('%', p.lastName, '%')) OR
-                UPPER(p.susNumber) LIKE UPPER(CONCAT('%', p.susNumber, '%')) OR
-                UPPER(p.email) LIKE UPPER(CONCAT('%', p.email, '%')) OR
-                UPPER(p.document) LIKE UPPER(CONCAT('%', p.document, '%'))
+                UPPER(p.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(p.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(p.susNumber) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(p.email) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(p.document) LIKE UPPER(CONCAT('%', :filter, '%'))
             )
             """)
     Page<PacientProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
