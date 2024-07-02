@@ -50,6 +50,7 @@ public class PacientMapper {
                 .setLastName(pacientPage.getLastName())
                 .setEmail(pacientPage.getEmail())
                 .setTelephone(pacientPage.getTelephone())
+                .setSusNumber(pacientPage.getSusNumber())
                 .build();
     }
 
@@ -61,6 +62,7 @@ public class PacientMapper {
                 .setEmail(pacientResume.getEmail())
                 .setTelephone(pacientResume.getTelephone())
                 .setDocument(pacientResume.getDocument())
+                .setSusNumber(pacientResume.getSusNumber())
                 .build();
     }
 }
