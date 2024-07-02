@@ -1,9 +1,13 @@
 package api.projeto_sus_backend.pacient.entities;
 
+import api.projeto_sus_backend.appointments.entities.AppointmentSchema;
 import api.projeto_sus_backend.user.entities.UserSchema;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -22,12 +26,20 @@ public class PacientSchema extends UserSchema {
     @Column(name = "sus_number", length = 15, unique = true, nullable = false)
     private String susNumber;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pacient_id", foreignKey = @ForeignKey(name = "fk_pacient_x_appointments"))
+    private List<AppointmentSchema> apppointments;
+
     public String getSusNumber() {
         return susNumber;
     }
 
     private void setSusNumber(String susNumber) {
         this.susNumber = susNumber;
+    }
+
+    public List<AppointmentSchema> getApppointments() {
+        return apppointments;
     }
 
     /**
@@ -80,6 +92,11 @@ public class PacientSchema extends UserSchema {
 
         public Builder setDocument(String document) {
             this.pacientSchema.setDocument(document);
+            return this;
+        }
+
+        public Builder setAppointments(List<AppointmentSchema> appointments) {
+            this.pacientSchema.getApppointments().addAll(appointments);
             return this;
         }
 

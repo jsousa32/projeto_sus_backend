@@ -1,13 +1,18 @@
 package api.projeto_sus_backend.pacient.entities;
 
+import api.projeto_sus_backend.appointments.entities.Appointment;
 import api.projeto_sus_backend.pacient.controls.PacientProjections;
 import api.projeto_sus_backend.user.entities.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -24,12 +29,23 @@ public class Pacient extends User {
     @JsonView({PacientProjections.Page.class, PacientProjections.Resume.class})
     private String susNumber;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Appointment> appointments;
+
     public String getSusNumber() {
         return susNumber;
     }
 
     public void setSusNumber(String susNumber) {
         this.susNumber = susNumber;
+    }
+
+    public List<Appointment> getAppointments() {
+        if (Objects.isNull(this.appointments)) {
+            this.appointments = new ArrayList<>();
+        }
+
+        return this.appointments;
     }
 
     /**
@@ -83,6 +99,11 @@ public class Pacient extends User {
 
         public Builder setDocument(String document) {
             this.pacient.setDocument(document);
+            return this;
+        }
+
+        public Builder setAppointments(List<Appointment> appointments) {
+            this.pacient.getAppointments().addAll(appointments);
             return this;
         }
 
