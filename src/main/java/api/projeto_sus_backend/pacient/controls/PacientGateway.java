@@ -2,6 +2,7 @@ package api.projeto_sus_backend.pacient.controls;
 
 import api.projeto_sus_backend.pacient.entities.Pacient;
 import api.projeto_sus_backend.pacient.entities.PacientSchema;
+import api.projeto_sus_backend.user.controls.UserExceptions;
 import api.projeto_sus_backend.user.controls.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,19 +31,19 @@ public class PacientGateway {
 
     public void existsByEmail(String email) {
         userRepository.findByEmail(email).ifPresent((pacient) -> {
-            throw new RuntimeException("Email já cadastrado");
+            throw new UserExceptions.EmailAlreadyUsed();
         });
     }
 
     public void existsByDocument(String document) {
         userRepository.findByDocument(document).ifPresent((pacient) -> {
-            throw new RuntimeException("CPF já cadastrado");
+            throw new UserExceptions.DocumentAlreadyUsed();
         });
     }
 
     public void existsBySusNumber(String susNumber) {
         pacientRepository.findBySusNumber(susNumber).ifPresent((pacient) -> {
-            throw new RuntimeException("Número SUS já cadastrado");
+            throw new PacientExceptions.SusNumberAlreadyUsed();
         });
     }
 
@@ -57,12 +58,12 @@ public class PacientGateway {
     public Pacient findById(UUID id) {
         return pacientRepository.findById(id)
                 .map(PacientMapper::convert)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+                .orElseThrow(PacientExceptions.NotFound::new);
     }
 
     public Pacient findByIdResume(UUID id) {
         return pacientRepository.findByIdResume(id).map(PacientMapper::convert)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+                .orElseThrow(PacientExceptions.NotFound::new);
     }
 
     public void active(UUID id) {
