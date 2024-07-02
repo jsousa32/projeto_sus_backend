@@ -1,15 +1,14 @@
 package api.projeto_sus_backend.appointments.entities;
 
 import api.projeto_sus_backend.doctor.entities.Doctor;
-import api.projeto_sus_backend.doctor.entities.DoctorSchema;
 import api.projeto_sus_backend.generic.entities.Generic;
+import api.projeto_sus_backend.utils.annotations.ValidTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 /**
@@ -27,9 +26,9 @@ public class Appointment extends Generic {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
 
-    @NotBlank(message = "Horário da consulta é obrigatório")
-    @JsonFormat(pattern = "hh:MM")
-    private LocalTime hour;
+    @ValidTime
+    @Schema(defaultValue = "08:00")
+    private String hour;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Doctor doctor;
@@ -50,11 +49,11 @@ public class Appointment extends Generic {
         this.date = date;
     }
 
-    public LocalTime getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(LocalTime hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
@@ -87,7 +86,7 @@ public class Appointment extends Generic {
             return this;
         }
 
-        public Builder setHour(LocalTime hour) {
+        public Builder setHour(String hour) {
             this.appointment.setHour(hour);
             return this;
         }

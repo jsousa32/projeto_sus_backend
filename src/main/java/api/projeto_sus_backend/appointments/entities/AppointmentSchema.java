@@ -2,11 +2,9 @@ package api.projeto_sus_backend.appointments.entities;
 
 import api.projeto_sus_backend.doctor.entities.DoctorSchema;
 import api.projeto_sus_backend.generic.entities.GenericSchema;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.UUID;
 
 /**
@@ -30,7 +28,7 @@ public class AppointmentSchema extends GenericSchema {
     private LocalDate date;
 
     @Column(length = 20, nullable = false)
-    private LocalTime hour;
+    private String hour;
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "doctor_id", foreignKey = @ForeignKey(name = "fk_appointment_x_doctor"))
@@ -52,11 +50,11 @@ public class AppointmentSchema extends GenericSchema {
         this.date = date;
     }
 
-    public LocalTime getHour() {
+    public String getHour() {
         return hour;
     }
 
-    public void setHour(LocalTime hour) {
+    public void setHour(String hour) {
         this.hour = hour;
     }
 
@@ -89,7 +87,7 @@ public class AppointmentSchema extends GenericSchema {
             return this;
         }
 
-        public Builder setHour(LocalTime hour) {
+        public Builder setHour(String hour) {
             this.appointmentSchema.setHour(hour);
             return this;
         }
