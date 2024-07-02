@@ -1,7 +1,9 @@
 package api.projeto_sus_backend.doctor.entities;
 
+import api.projeto_sus_backend.doctor.controls.DoctorProjections;
 import api.projeto_sus_backend.user.entities.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -20,6 +22,7 @@ public class Doctor extends User {
 
     @NotBlank(message = "Número do CRM obrigatório")
     @Pattern(regexp = "\\d{6}$", message = "Número do CRM inválido")
+    @JsonView({DoctorProjections.Page.class, DoctorProjections.Resume.class})
     private String crm;
 
     public String getCrm() {
