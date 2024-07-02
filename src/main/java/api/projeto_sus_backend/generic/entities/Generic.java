@@ -1,6 +1,8 @@
 package api.projeto_sus_backend.generic.entities;
 
+import api.projeto_sus_backend.generic.controls.GenericProjections;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.MappedSuperclass;
 
 import java.time.LocalDateTime;
@@ -15,15 +17,19 @@ import java.time.LocalDateTime;
 public abstract class Generic {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(GenericProjections.Audit.class)
     private LocalDateTime createdAt;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(GenericProjections.Audit.class)
     private LocalDateTime updatedAt;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(GenericProjections.Audit.class)
     private LocalDateTime disabledAt;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(GenericProjections.Audit.class)
     private boolean disabled;
 
     public LocalDateTime getCreatedAt() {

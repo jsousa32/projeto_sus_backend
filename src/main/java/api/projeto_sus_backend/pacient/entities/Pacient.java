@@ -1,7 +1,9 @@
 package api.projeto_sus_backend.pacient.entities;
 
+import api.projeto_sus_backend.pacient.controls.PacientProjections;
 import api.projeto_sus_backend.user.entities.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
@@ -19,6 +21,7 @@ public class Pacient extends User {
 
     @NotBlank(message = "Número do SUS obrigatório")
     @Pattern(regexp = "\\d{15}$", message = "Número do SUS inválido")
+    @JsonView({PacientProjections.Page.class, PacientProjections.Resume.class})
     private String susNumber;
 
     public String getSusNumber() {

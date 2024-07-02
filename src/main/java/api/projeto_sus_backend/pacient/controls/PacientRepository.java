@@ -36,14 +36,14 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
                 UPPER(p.document) LIKE UPPER(CONCAT('%', p.document, '%'))
             )
             """)
-    Page<PacientProjections.PacientPageProjection> findAll(@Param("filter") String filter, Pageable pageable);
+    Page<PacientProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
 
     @Query("""
             SELECT p FROM PacientSchema p
             WHERE p.id = :id
             AND p.disabled = false
             """)
-    Optional<PacientProjections.PacientResumeProjection> findByIdResume(@Param("id") UUID id);
+    Optional<PacientProjections.Resume> findByIdResume(@Param("id") UUID id);
 
     @Modifying
     @Query("""

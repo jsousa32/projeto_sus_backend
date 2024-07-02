@@ -43,24 +43,24 @@ public class PacientMapper {
                 .build();
     }
 
-    public static Pacient convert(PacientProjections.PacientPageProjection pacientPageProjection) {
+    public static Pacient convert(PacientProjections.Page pacientPage) {
         return new Pacient.Builder().builder()
-                .setId(pacientPageProjection.getId())
-                .setFirstName(pacientPageProjection.getFirstName())
-                .setLastName(pacientPageProjection.getLastName())
-                .setEmail(pacientPageProjection.getEmail())
-                .setTelephone(pacientPageProjection.getTelephone())
+                .setId(pacientPage.getId())
+                .setFirstName(pacientPage.getFirstName())
+                .setLastName(pacientPage.getLastName())
+                .setEmail(pacientPage.getEmail())
+                .setTelephone(pacientPage.getTelephone())
                 .build();
     }
 
-    public static Pacient convert(PacientProjections.PacientResumeProjection pacientResumeProjection) {
+    public static Pacient convert(PacientProjections.Resume pacientResume) {
         return new Pacient.Builder().builder()
-                .setId(pacientResumeProjection.getId())
-                .setFirstName(pacientResumeProjection.getFirstName())
-                .setLastName(pacientResumeProjection.getLastName())
-                .setEmail(pacientResumeProjection.getEmail())
-                .setTelephone(pacientResumeProjection.getTelephone())
-                .setDocument(pacientResumeProjection.getDocument())
+                .setId(pacientResume.getId())
+                .setFirstName(pacientResume.getFirstName())
+                .setLastName(pacientResume.getLastName())
+                .setEmail(pacientResume.getEmail())
+                .setTelephone(pacientResume.getTelephone())
+                .setDocument(pacientResume.getDocument())
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package api.projeto_sus_backend.pacient.controls;
 
-import java.util.UUID;
+import api.projeto_sus_backend.user.controls.UserProjections;
 
 /**
  * The Class PacientProjections
@@ -10,23 +10,16 @@ import java.util.UUID;
  */
 public class PacientProjections {
 
-    public interface PacientPageProjection {
+    public interface Page extends
+            UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone {
 
-        UUID getId();
-        String getFirstName();
-        String getLastName();
         String getSusNumber();
-        String getEmail();
-        String getTelephone();
     }
 
-    public interface PacientResumeProjection {
-        UUID getId();
-        String getFirstName();
-        String getLastName();
+    public interface Resume extends
+            UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone,
+            UserProjections.Document {
+
         String getSusNumber();
-        String getEmail();
-        String getTelephone();
-        String getDocument();
     }
 }

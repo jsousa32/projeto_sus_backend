@@ -1,7 +1,9 @@
 package api.projeto_sus_backend.pacient.boundary;
 
+import api.projeto_sus_backend.pacient.controls.PacientProjections;
 import api.projeto_sus_backend.pacient.entities.Pacient;
 import api.projeto_sus_backend.utils.CustomPageable;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -57,6 +59,7 @@ public class PacientController {
      */
     @Operation(summary = "Endpoint responsável por buscar todos os pacientes paginados")
     @GetMapping("all")
+    @JsonView(PacientProjections.Page.class)
     public ResponseEntity<Page<Pacient>> findAll(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
@@ -77,6 +80,7 @@ public class PacientController {
      */
     @Operation(summary = "Endpoint responsável por buscar todos os pacientes não paginados")
     @GetMapping("unpaged")
+    @JsonView(PacientProjections.Page.class)
     public ResponseEntity<Page<Pacient>> findAllUnpaged(
             @RequestParam(name = "filter", required = false, defaultValue = "") String filter
     ) {
@@ -94,6 +98,7 @@ public class PacientController {
      */
     @Operation(summary = "Endpoint por responsável buscar um paciente")
     @GetMapping
+    @JsonView(PacientProjections.Resume.class)
     public ResponseEntity<Pacient> findById(@RequestParam(value = "id") UUID id) {
 
         Pacient pacient = pacientBusiness.findById(id);
