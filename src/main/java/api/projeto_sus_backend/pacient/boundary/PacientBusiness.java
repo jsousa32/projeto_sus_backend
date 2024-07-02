@@ -25,7 +25,7 @@ public class PacientBusiness {
     }
 
     /**
-     * Metodo responsável por criar um novo paciente
+     * Metodo responsável por criar um paciente
      *
      * @param pacient;
      */
