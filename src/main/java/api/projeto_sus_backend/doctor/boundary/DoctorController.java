@@ -5,6 +5,7 @@ import api.projeto_sus_backend.doctor.entities.Doctor;
 import api.projeto_sus_backend.utils.CustomPageable;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(path = "v1/doctors")
+@Tag(name = "Módulo de Médicos")
 public class DoctorController {
 
     private final DoctorBusiness doctorBusiness;
