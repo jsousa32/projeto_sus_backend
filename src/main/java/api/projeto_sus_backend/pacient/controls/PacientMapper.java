@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.pacient.controls;
 
+import api.projeto_sus_backend.appointments.controls.AppointmentMapper;
 import api.projeto_sus_backend.pacient.entities.Pacient;
 import api.projeto_sus_backend.pacient.entities.PacientSchema;
 
@@ -20,6 +21,7 @@ public class PacientMapper {
                 .setTelephone(pacient.getTelephone())
                 .setDocument(pacient.getDocument())
                 .setSusNumber(pacient.getSusNumber())
+                .setAppointments(pacient.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .setPassword(pacient.getPassword())
                 .setDisabledAt(pacient.getDisabledAt())
                 .setDisabled(pacient.isDisabled())
@@ -36,6 +38,7 @@ public class PacientMapper {
                 .setPassword(pacientSchema.getPassword())
                 .setDocument(pacientSchema.getDocument())
                 .setSusNumber(pacientSchema.getSusNumber())
+                .setAppointments(pacientSchema.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .setCreatedAt(pacientSchema.getCreatedAt())
                 .setUpdatedAt(pacientSchema.getUpdatedAt())
                 .setDisabledAt(pacientSchema.getDisabledAt())
