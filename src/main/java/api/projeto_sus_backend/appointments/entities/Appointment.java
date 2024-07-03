@@ -36,7 +36,7 @@ public class Appointment extends Generic {
     @JsonView(AppointmentProjections.Page.class)
     private String hour;
 
-//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonView(DoctorProjections.ResumeToAppointments.class)
     private Doctor doctor;
 
