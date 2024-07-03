@@ -24,7 +24,7 @@ public class AppointmentProjections {
         DoctorProjections.ResumeToAppointments getDoctor();
     }
 
-    public interface Resume extends AppointmentProjections.Page {
+    public interface Resume extends Page {
     }
 
     public interface Create {
@@ -34,5 +34,6 @@ public class AppointmentProjections {
         String getHour();
     }
 
-    public interface Update extends Create {}
+    public interface Update extends Create {
+    }
 }

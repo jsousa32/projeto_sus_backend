@@ -39,6 +39,7 @@ public class AppointmentsController {
      */
     @Operation(summary = "Endpoint responsável por criar uma consulta")
     @PostMapping
+    @JsonView(AppointmentProjections.Create.class)
     public ResponseEntity<Void> save(
             @RequestParam(name = "pacientId") UUID pacientId,
             @RequestParam(name = "doctorId") UUID doctorId,
@@ -77,6 +78,7 @@ public class AppointmentsController {
      */
     @Operation(summary = "Endpoint responsável por buscar uma consulta")
     @GetMapping
+    @JsonView(AppointmentProjections.Resume.class)
     public ResponseEntity<Appointment> findById(@RequestParam("id") UUID id) {
 
         Appointment response = appointmentBusiness.findById(id);
@@ -86,6 +88,7 @@ public class AppointmentsController {
 
     @Operation(summary = "Endpoint responsável por atualizar uma consulta")
     @PatchMapping
+    @JsonView(AppointmentProjections.Update.class)
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
             @Valid @RequestBody Appointment appointment
