@@ -27,6 +27,8 @@ public class UserSchema extends GenericSchema {
 
     public final static String DESCIMINATOR_DOCTOR = "Doctor";
 
+    public final static String DESCRIMINATOR_ADMIN = "Admin";
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
