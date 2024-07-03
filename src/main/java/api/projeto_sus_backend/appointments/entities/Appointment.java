@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -26,14 +26,14 @@ public class Appointment extends Generic {
     @JsonView(AppointmentProjections.Page.class)
     private UUID id;
 
-    @NotBlank(message = "Data da consulta é obrigatório")
+    @NotNull(message = "Data da consulta é obrigatório")
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @JsonView(AppointmentProjections.Page.class)
+    @JsonView({AppointmentProjections.Page.class, AppointmentProjections.Create.class})
     private LocalDate date;
 
     @ValidTime
     @Schema(defaultValue = "08:00")
-    @JsonView(AppointmentProjections.Page.class)
+    @JsonView({AppointmentProjections.Page.class, AppointmentProjections.Create.class})
     private String hour;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
