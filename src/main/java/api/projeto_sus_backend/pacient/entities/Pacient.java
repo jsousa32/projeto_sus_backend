@@ -30,7 +30,7 @@ public class Pacient extends User {
     private String susNumber;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
     public String getSusNumber() {
         return susNumber;
@@ -41,10 +41,6 @@ public class Pacient extends User {
     }
 
     public List<Appointment> getAppointments() {
-        if (Objects.isNull(this.appointments)) {
-            this.appointments = new ArrayList<>();
-        }
-
         return this.appointments;
     }
 
