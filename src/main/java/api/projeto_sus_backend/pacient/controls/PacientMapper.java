@@ -66,6 +66,7 @@ public class PacientMapper {
                 .setTelephone(pacientResume.getTelephone())
                 .setDocument(pacientResume.getDocument())
                 .setSusNumber(pacientResume.getSusNumber())
+                .setAppointments(pacientResume.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .build();
     }
 }

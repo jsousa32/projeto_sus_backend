@@ -1,6 +1,9 @@
 package api.projeto_sus_backend.pacient.controls;
 
+import api.projeto_sus_backend.appointments.controls.AppointmentProjections;
 import api.projeto_sus_backend.user.controls.UserProjections;
+
+import java.util.List;
 
 /**
  * The Class PacientProjections
@@ -18,9 +21,11 @@ public class PacientProjections {
 
     public interface Resume extends
             UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone,
-            UserProjections.Document {
+            UserProjections.Document, AppointmentProjections.Resume {
 
         String getSusNumber();
+
+        List<AppointmentProjections.Resume> getAppointments();
     }
 
     public interface ResumeToAppointment extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName {

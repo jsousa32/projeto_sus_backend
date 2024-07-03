@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.pacient.entities;
 
+import api.projeto_sus_backend.appointments.controls.AppointmentProjections;
 import api.projeto_sus_backend.appointments.entities.Appointment;
 import api.projeto_sus_backend.pacient.controls.PacientProjections;
 import api.projeto_sus_backend.user.entities.User;
@@ -12,7 +13,6 @@ import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -30,6 +30,7 @@ public class Pacient extends User {
     private String susNumber;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(AppointmentProjections.Resume.class)
     private List<Appointment> appointments = new ArrayList<>();
 
     public String getSusNumber() {
