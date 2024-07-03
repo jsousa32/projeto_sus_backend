@@ -60,4 +60,12 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
             WHERE p.id = :id
             """)
     void disable(@Param("id") UUID id);
+
+    @Query("""
+            SELECT p FROM PacientSchema p
+            JOIN p.appointments a
+            WHERE a.id = :appointmentId
+            AND p.disabled = false
+            """)
+    Optional<PacientSchema> findByAppointmentId(@Param("appointmentId") UUID appointmentId);
 }
