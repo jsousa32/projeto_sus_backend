@@ -86,6 +86,13 @@ public class AppointmentsController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    /**
+     * Endpoint responsável por atualizar uma consulta
+     *
+     * @param id;
+     * @param appointment;
+     * @return ResponseEntity<Void>;
+     */
     @Operation(summary = "Endpoint responsável por atualizar uma consulta")
     @PatchMapping
     @JsonView(AppointmentProjections.Update.class)
