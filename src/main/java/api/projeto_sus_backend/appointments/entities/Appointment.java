@@ -1,10 +1,13 @@
 package api.projeto_sus_backend.appointments.entities;
 
+import api.projeto_sus_backend.appointments.controls.AppointmentProjections;
+import api.projeto_sus_backend.doctor.controls.DoctorProjections;
 import api.projeto_sus_backend.doctor.entities.Doctor;
 import api.projeto_sus_backend.generic.entities.Generic;
 import api.projeto_sus_backend.utils.annotations.ValidTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
@@ -20,17 +23,21 @@ import java.util.UUID;
 public class Appointment extends Generic {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(AppointmentProjections.Page.class)
     private UUID id;
 
     @NotBlank(message = "Data da consulta é obrigatório")
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonView(AppointmentProjections.Page.class)
     private LocalDate date;
 
     @ValidTime
     @Schema(defaultValue = "08:00")
+    @JsonView(AppointmentProjections.Page.class)
     private String hour;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(DoctorProjections.ResumeToAppointments.class)
     private Doctor doctor;
 
     public UUID getId() {
