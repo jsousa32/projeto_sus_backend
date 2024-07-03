@@ -1,8 +1,6 @@
 package api.projeto_sus_backend.appointments.controls;
 
 import api.projeto_sus_backend.doctor.controls.DoctorProjections;
-import api.projeto_sus_backend.doctor.entities.Doctor;
-import api.projeto_sus_backend.pacient.controls.PacientProjections;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -25,4 +23,16 @@ public class AppointmentProjections {
 
         DoctorProjections.ResumeToAppointments getDoctor();
     }
+
+    public interface Resume extends AppointmentProjections.Page {
+    }
+
+    public interface Create {
+
+        LocalDate getDate();
+
+        String getHour();
+    }
+
+    public interface Update extends Create {}
 }
