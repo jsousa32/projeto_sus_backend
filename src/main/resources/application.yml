@@ -17,3 +17,6 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update
+  jackson:
+    mapper:
+      DEFAULT_VIEW_INCLUSION: true
