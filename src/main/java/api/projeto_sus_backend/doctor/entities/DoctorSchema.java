@@ -1,10 +1,11 @@
 package api.projeto_sus_backend.doctor.entities;
 
-import api.projeto_sus_backend.pacient.entities.PacientSchema;
 import api.projeto_sus_backend.user.entities.UserSchema;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -80,6 +81,11 @@ public class DoctorSchema extends UserSchema {
 
         public Builder setDocument(String document) {
             this.doctorSchema.setDocument(document);
+            return this;
+        }
+
+        public Builder setPermissions(List<Permissions> permissions) {
+            this.doctorSchema.getPermissions().addAll(permissions);
             return this;
         }
 

@@ -2,6 +2,7 @@ package api.projeto_sus_backend.pacient.boundary;
 
 import api.projeto_sus_backend.pacient.controls.PacientGateway;
 import api.projeto_sus_backend.pacient.entities.Pacient;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,8 @@ public class PacientBusiness {
 
         pacientGateway.existsByDocument(pacient.getDocument());
 
+        pacient.getPermissions().add(Permissions.PACIENT);
+
         pacientGateway.save(pacient);
     }
 
@@ -70,7 +73,7 @@ public class PacientBusiness {
     public void update(UUID id, Pacient pacient) {
         Pacient pacientDB = pacientGateway.findById(id);
 
-        if(!pacientDB.getEmail().equals(pacient.getEmail())) {
+        if (!pacientDB.getEmail().equals(pacient.getEmail())) {
             pacientGateway.existsByEmail(pacient.getEmail());
         }
 

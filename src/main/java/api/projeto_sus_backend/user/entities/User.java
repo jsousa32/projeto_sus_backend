@@ -2,6 +2,8 @@ package api.projeto_sus_backend.user.entities;
 
 import api.projeto_sus_backend.generic.entities.Generic;
 import api.projeto_sus_backend.user.controls.UserProjections;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.Email;
@@ -9,6 +11,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.br.CPF;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -50,6 +54,11 @@ public class User extends Generic {
     @CPF(message = "CPF inválido")
     @JsonView(UserProjections.Document.class)
     private String document;
+
+
+    @JsonIgnore
+    @JsonView(UserProjections.Document.class)
+    private List<Permissions> permissions = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -105,5 +114,9 @@ public class User extends Generic {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    public List<Permissions> getPermissions() {
+        return permissions;
     }
 }

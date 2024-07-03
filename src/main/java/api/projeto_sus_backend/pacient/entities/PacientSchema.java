@@ -2,6 +2,7 @@ package api.projeto_sus_backend.pacient.entities;
 
 import api.projeto_sus_backend.appointments.entities.AppointmentSchema;
 import api.projeto_sus_backend.user.entities.UserSchema;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -96,6 +97,11 @@ public class PacientSchema extends UserSchema {
 
         public Builder setAppointments(List<AppointmentSchema> appointments) {
             this.pacientSchema.getAppointments().addAll(appointments);
+            return this;
+        }
+
+        public Builder setPermissions(List<Permissions> permissions) {
+            this.pacientSchema.getPermissions().addAll(permissions);
             return this;
         }
 

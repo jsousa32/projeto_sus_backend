@@ -1,8 +1,11 @@
 package api.projeto_sus_backend.user.entities;
 
 import api.projeto_sus_backend.generic.entities.GenericSchema;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -45,6 +48,13 @@ public class UserSchema extends GenericSchema {
 
     @Column(nullable = false, length = 11, unique = true)
     private String document;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "tb_user_permissions", joinColumns = @JoinColumn(name = "user_id"),
+            indexes = {@Index(columnList = "user_id")})
+    @Column(name = "permission")
+    private List<Permissions> permissions = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -100,5 +110,9 @@ public class UserSchema extends GenericSchema {
 
     public void setDocument(String document) {
         this.document = document;
+    }
+
+    public List<Permissions> getPermissions() {
+        return permissions;
     }
 }

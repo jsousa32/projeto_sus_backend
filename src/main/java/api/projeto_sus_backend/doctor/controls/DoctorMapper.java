@@ -21,6 +21,7 @@ public class DoctorMapper {
                 .setDocument(doctor.getDocument())
                 .setCrm(doctor.getCrm())
                 .setPassword(doctor.getPassword())
+                .setPermissions(doctor.getPermissions())
                 .setDisabledAt(doctor.getDisabledAt())
                 .setDisabled(doctor.isDisabled())
                 .build();
@@ -36,6 +37,7 @@ public class DoctorMapper {
                 .setDocument(doctorSchema.getDocument())
                 .setCrm(doctorSchema.getCrm())
                 .setPassword(doctorSchema.getPassword())
+                .setPermissions(doctorSchema.getPermissions())
                 .setDisabledAt(doctorSchema.getDisabledAt())
                 .setDisabled(doctorSchema.isDisabled())
                 .build();

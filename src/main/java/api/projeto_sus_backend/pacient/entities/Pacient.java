@@ -4,6 +4,7 @@ import api.projeto_sus_backend.appointments.controls.AppointmentProjections;
 import api.projeto_sus_backend.appointments.entities.Appointment;
 import api.projeto_sus_backend.pacient.controls.PacientProjections;
 import api.projeto_sus_backend.user.entities.User;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -101,6 +102,11 @@ public class Pacient extends User {
 
         public Builder setAppointments(List<Appointment> appointments) {
             this.pacient.getAppointments().addAll(appointments);
+            return this;
+        }
+
+        public Builder setPermissions(List<Permissions> permissions) {
+            this.pacient.getPermissions().addAll(permissions);
             return this;
         }
 

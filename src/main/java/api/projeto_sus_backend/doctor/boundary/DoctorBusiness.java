@@ -2,6 +2,7 @@ package api.projeto_sus_backend.doctor.boundary;
 
 import api.projeto_sus_backend.doctor.controls.DoctorGateway;
 import api.projeto_sus_backend.doctor.entities.Doctor;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,8 @@ public class DoctorBusiness {
         doctorGateway.existsByEmail(doctor.getEmail());
 
         doctorGateway.existsByDocument(doctor.getDocument());
+
+        doctor.getPermissions().add(Permissions.DOCTOR);
 
         doctorGateway.save(doctor);
     }

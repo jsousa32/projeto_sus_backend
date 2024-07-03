@@ -2,13 +2,14 @@ package api.projeto_sus_backend.doctor.entities;
 
 import api.projeto_sus_backend.doctor.controls.DoctorProjections;
 import api.projeto_sus_backend.user.entities.User;
+import api.projeto_sus_backend.user.entities.enums.Permissions;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -82,6 +83,11 @@ public class Doctor extends User {
 
         public Builder setDocument(String document) {
             this.doctor.setDocument(document);
+            return this;
+        }
+
+        public Builder setPermissions(List<Permissions> permissions) {
+            this.doctor.getPermissions().addAll(permissions);
             return this;
         }
 
