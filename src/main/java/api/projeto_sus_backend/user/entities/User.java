@@ -38,6 +38,7 @@ public class User extends Generic {
 
     @NotBlank(message = "Senha é obrigatório")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonView(UserProjections.Password.class)
     private String password;
 
     @NotBlank(message = "Telefone é obrigatório")

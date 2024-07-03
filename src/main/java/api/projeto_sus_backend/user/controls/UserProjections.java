@@ -30,6 +30,10 @@ public class UserProjections {
         String getTelephone();
     }
 
+    public interface Password {
+        String getPassword();
+    }
+
     public interface Document {
         String getDocument();
     }
