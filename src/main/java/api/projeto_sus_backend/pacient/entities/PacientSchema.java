@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -28,7 +27,7 @@ public class PacientSchema extends UserSchema {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "pacient_id", foreignKey = @ForeignKey(name = "fk_pacient_x_appointments"))
-    private List<AppointmentSchema> apppointments;
+    private List<AppointmentSchema> appointments = new ArrayList<>();
 
     public String getSusNumber() {
         return susNumber;
@@ -38,8 +37,8 @@ public class PacientSchema extends UserSchema {
         this.susNumber = susNumber;
     }
 
-    public List<AppointmentSchema> getApppointments() {
-        return apppointments;
+    public List<AppointmentSchema> getAppointments() {
+        return appointments;
     }
 
     /**
@@ -96,7 +95,7 @@ public class PacientSchema extends UserSchema {
         }
 
         public Builder setAppointments(List<AppointmentSchema> appointments) {
-            this.pacientSchema.getApppointments().addAll(appointments);
+            this.pacientSchema.getAppointments().addAll(appointments);
             return this;
         }
 
