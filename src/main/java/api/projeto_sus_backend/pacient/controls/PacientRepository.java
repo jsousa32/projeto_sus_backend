@@ -26,7 +26,9 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
     Optional<PacientSchema> findBySusNumber(@Param("susNumber") String susNumber);
 
     @Query("""
-            SELECT p FROM PacientSchema p
+            SELECT 
+                p.id as id, p.firstName as firstName, p.lastName as lastName, p.email as email, p.telephone as telephone, p.susNumber as susNumber 
+            FROM PacientSchema p
             WHERE p.disabled = false
             AND (
                 UPPER(p.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
@@ -39,7 +41,10 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
     Page<PacientProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
 
     @Query("""
-            SELECT p FROM PacientSchema p
+            SELECT 
+                p.id as id, p.firstName as firstName, p.lastName as lastName, p.email as email, p.telephone as telephone, p.susNumber as susNumber,
+                p.document as document
+            FROM PacientSchema p
             WHERE p.id = :id
             AND p.disabled = false
             """)

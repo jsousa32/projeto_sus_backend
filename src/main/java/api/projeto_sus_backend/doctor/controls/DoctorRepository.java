@@ -1,6 +1,5 @@
 package api.projeto_sus_backend.doctor.controls;
 
-import api.projeto_sus_backend.doctor.entities.Doctor;
 import api.projeto_sus_backend.doctor.entities.DoctorSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,9 @@ public interface DoctorRepository extends JpaRepository<DoctorSchema, UUID> {
     Optional<DoctorSchema> findByCrm(@Param("crm") String crm);
 
     @Query("""
-            SELECT d FROM DoctorSchema d
+            SELECT
+                d.id as id, d.firstName as firstName, d.lastName as lastName, d.email as email, d.telephone as telephone, d.crm as crm
+            FROM DoctorSchema d
             WHERE d.disabled = false
             AND (
                 UPPER(d.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
@@ -37,14 +38,17 @@ public interface DoctorRepository extends JpaRepository<DoctorSchema, UUID> {
                 UPPER(d.document) LIKE UPPER(CONCAT('%', :filter, '%'))
             )
             """)
-    Page<DoctorSchema> findAll(@Param("filter") String filter, Pageable pageable);
+    Page<DoctorProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
 
     @Query("""
-            SELECT d FROM DoctorSchema d
+            SELECT
+                d.id as id, d.firstName as firstName, d.lastName as lastName, d.email as email, d.telephone as telephone, d.crm as crm,
+                d.document as document
+            FROM DoctorSchema d
             WHERE d.id = :id
             AND d.disabled = false
             """)
-    Optional<DoctorSchema> findByIdResume(@Param("id") UUID id);
+    Optional<DoctorProjections.Resume> findByIdResume(@Param("id") UUID id);
 
     @Modifying
     @Query("""
