@@ -22,4 +22,8 @@ public class DoctorProjections {
 
         String getCrm();
     }
+
+    public interface ResumeToAppointments extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName {
+        String getCrm();
+    }
 }

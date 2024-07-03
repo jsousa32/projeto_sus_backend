@@ -22,4 +22,9 @@ public class PacientProjections {
 
         String getSusNumber();
     }
+
+    public interface ResumeToAppointment extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName {
+
+        String getSusNumber();
+    }
 }
