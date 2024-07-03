@@ -63,4 +63,13 @@ public class DoctorMapper {
                 .setCrm(doctorResume.getCrm())
                 .build();
     }
+
+    public static Doctor convert(DoctorProjections.ResumeToAppointments doctorResumeAppointment) {
+        return new Doctor.Builder().builder()
+                .setId(doctorResumeAppointment.getId())
+                .setFirstName(doctorResumeAppointment.getFirstName())
+                .setLastName(doctorResumeAppointment.getLastName())
+                .setCrm(doctorResumeAppointment.getCrm())
+                .build();
+    }
 }
