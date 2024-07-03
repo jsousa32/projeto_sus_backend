@@ -1,9 +1,6 @@
 package api.projeto_sus_backend.doctor.controls;
 
 import api.projeto_sus_backend.doctor.entities.Doctor;
-import api.projeto_sus_backend.doctor.entities.DoctorSchema;
-import api.projeto_sus_backend.user.controls.UserExceptions;
-import api.projeto_sus_backend.user.controls.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -21,28 +18,14 @@ public class DoctorGateway {
 
     private final DoctorRepository doctorRepository;
 
-    private final UserRepository<DoctorSchema> userRepository;
 
-    public DoctorGateway(DoctorRepository doctorRepository, UserRepository<DoctorSchema> userRepository) {
+    public DoctorGateway(DoctorRepository doctorRepository) {
         this.doctorRepository = doctorRepository;
-        this.userRepository = userRepository;
     }
 
     public void existsByCrm(String crm) {
         doctorRepository.findByCrm(crm).ifPresent(doctor -> {
             throw new DoctorExceptions.CrmAlreadyUsed();
-        });
-    }
-
-    public void existsByEmail(String email) {
-        userRepository.findByEmail(email).ifPresent(user -> {
-            throw new UserExceptions.EmailAlreadyUsed();
-        });
-    }
-
-    public void existsByDocument(String document) {
-        userRepository.findByDocument(document).ifPresent(user -> {
-            throw new UserExceptions.DocumentAlreadyUsed();
         });
     }
 

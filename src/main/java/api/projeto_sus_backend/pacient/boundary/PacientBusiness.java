@@ -2,6 +2,7 @@ package api.projeto_sus_backend.pacient.boundary;
 
 import api.projeto_sus_backend.pacient.controls.PacientGateway;
 import api.projeto_sus_backend.pacient.entities.Pacient;
+import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,12 @@ public class PacientBusiness {
 
     private final PacientGateway pacientGateway;
 
-    public PacientBusiness(PacientGateway pacientGateway) {
+    private final UserGateway userGateway;
+
+    public PacientBusiness(PacientGateway pacientGateway,
+                           UserGateway userGateway) {
         this.pacientGateway = pacientGateway;
+        this.userGateway = userGateway;
     }
 
     /**
@@ -34,9 +39,9 @@ public class PacientBusiness {
 
         pacientGateway.existsBySusNumber(pacient.getSusNumber());
 
-        pacientGateway.existsByEmail(pacient.getEmail());
+        userGateway.existsByEmail(pacient.getEmail());
 
-        pacientGateway.existsByDocument(pacient.getDocument());
+        userGateway.existsByDocument(pacient.getDocument());
 
         pacient.getPermissions().add(Permissions.PACIENT);
 
@@ -74,7 +79,7 @@ public class PacientBusiness {
         Pacient pacientDB = pacientGateway.findById(id);
 
         if (!pacientDB.getEmail().equals(pacient.getEmail())) {
-            pacientGateway.existsByEmail(pacient.getEmail());
+            userGateway.existsByEmail(pacient.getEmail());
         }
 
         BeanUtils.copyProperties(pacient, pacientDB, "id", "susNumber", "document", "password");

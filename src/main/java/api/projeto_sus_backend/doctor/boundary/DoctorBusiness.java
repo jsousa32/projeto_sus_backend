@@ -2,6 +2,7 @@ package api.projeto_sus_backend.doctor.boundary;
 
 import api.projeto_sus_backend.doctor.controls.DoctorGateway;
 import api.projeto_sus_backend.doctor.entities.Doctor;
+import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,12 @@ public class DoctorBusiness {
 
     private final DoctorGateway doctorGateway;
 
-    public DoctorBusiness(DoctorGateway doctorGateway) {
+    private final UserGateway userGateway;
+
+    public DoctorBusiness(DoctorGateway doctorGateway,
+                          UserGateway userGateway) {
         this.doctorGateway = doctorGateway;
+        this.userGateway = userGateway;
     }
 
     /**
@@ -34,9 +39,9 @@ public class DoctorBusiness {
 
         doctorGateway.existsByCrm(doctor.getCrm());
 
-        doctorGateway.existsByEmail(doctor.getEmail());
+        userGateway.existsByEmail(doctor.getEmail());
 
-        doctorGateway.existsByDocument(doctor.getDocument());
+        userGateway.existsByDocument(doctor.getDocument());
 
         doctor.getPermissions().add(Permissions.DOCTOR);
 
@@ -74,7 +79,7 @@ public class DoctorBusiness {
         Doctor doctorDB = doctorGateway.findById(id);
 
         if (!doctor.getEmail().equals(doctorDB.getEmail())) {
-            doctorGateway.existsByEmail(doctor.getEmail());
+            userGateway.existsByEmail(doctor.getEmail());
         }
 
         BeanUtils.copyProperties(doctor, doctorDB, "id", "crm", "document", "password");

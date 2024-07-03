@@ -1,9 +1,6 @@
 package api.projeto_sus_backend.pacient.controls;
 
 import api.projeto_sus_backend.pacient.entities.Pacient;
-import api.projeto_sus_backend.pacient.entities.PacientSchema;
-import api.projeto_sus_backend.user.controls.UserExceptions;
-import api.projeto_sus_backend.user.controls.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -19,26 +16,10 @@ import java.util.UUID;
 @Component
 public class PacientGateway {
 
-    private final UserRepository<PacientSchema> userRepository;
-
     private final PacientRepository pacientRepository;
 
-    public PacientGateway(UserRepository<PacientSchema> userRepository,
-                          PacientRepository pacientRepository) {
-        this.userRepository = userRepository;
+    public PacientGateway(PacientRepository pacientRepository) {
         this.pacientRepository = pacientRepository;
-    }
-
-    public void existsByEmail(String email) {
-        userRepository.findByEmail(email).ifPresent((pacient) -> {
-            throw new UserExceptions.EmailAlreadyUsed();
-        });
-    }
-
-    public void existsByDocument(String document) {
-        userRepository.findByDocument(document).ifPresent((pacient) -> {
-            throw new UserExceptions.DocumentAlreadyUsed();
-        });
     }
 
     public void existsBySusNumber(String susNumber) {
