@@ -6,11 +6,11 @@ import api.projeto_sus_backend.utils.CustomPageable;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -41,7 +41,7 @@ public class DoctorController {
     @Operation(summary = "Endpoint responsável por criar um novo médico")
     @PostMapping
     @JsonView(DoctorProjections.Create.class)
-    public ResponseEntity<Void> save(@Valid @RequestBody Doctor doctor) {
+    public ResponseEntity<Void> save(@Validated(DoctorProjections.Create.class) @RequestBody Doctor doctor) {
 
         doctorBusiness.save(doctor);
 
@@ -115,7 +115,7 @@ public class DoctorController {
     @JsonView(DoctorProjections.EditablesFields.class)
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
-            @Valid @RequestBody Doctor doctor
+            @Validated(DoctorProjections.EditablesFields.class) @RequestBody Doctor doctor
     ) {
         doctorBusiness.update(id, doctor);
 

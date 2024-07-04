@@ -6,11 +6,11 @@ import api.projeto_sus_backend.utils.CustomPageable;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -42,7 +42,7 @@ public class PacientController {
     @Operation(summary = "Endpoint responsável por criar um novo paciente")
     @PostMapping
     @JsonView(PacientProjections.Create.class)
-    public ResponseEntity<Void> save(@Valid @RequestBody Pacient pacient) {
+    public ResponseEntity<Void> save(@Validated(PacientProjections.Create.class) @RequestBody Pacient pacient) {
 
         pacientBusiness.save(pacient);
 
@@ -119,7 +119,7 @@ public class PacientController {
     @JsonView(PacientProjections.EditablesFields.class)
     public ResponseEntity<Void> update(
             @RequestParam(value = "id") UUID id,
-            @Valid @RequestBody Pacient pacient) {
+            @Validated(PacientProjections.EditablesFields.class) @RequestBody Pacient pacient) {
         pacientBusiness.update(id, pacient);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

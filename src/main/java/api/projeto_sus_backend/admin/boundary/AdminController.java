@@ -6,10 +6,10 @@ import api.projeto_sus_backend.utils.CustomPageable;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class AdminController {
     @Operation(summary = "Endpoint responsável pela criação de um administrador")
     @PostMapping
     @JsonView(AdminProjections.Create.class)
-    public ResponseEntity<Void> save(@Valid @RequestBody Admin admin) {
+    public ResponseEntity<Void> save(@Validated(AdminProjections.Create.class) @RequestBody Admin admin) {
 
         adminBusiness.save(admin);
 
@@ -98,7 +98,7 @@ public class AdminController {
     @JsonView(AdminProjections.EditablesFields.class)
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
-            @Valid @RequestBody Admin admin
+            @Validated(AdminProjections.EditablesFields.class) @RequestBody Admin admin
     ) {
         adminBusiness.update(id, admin);
 
