@@ -23,7 +23,7 @@ public class Doctor extends User {
 
     @NotBlank(message = "Número do CRM obrigatório", groups = DoctorProjections.Create.class)
     @Pattern(regexp = "\\d{6}$", message = "Número do CRM inválido")
-    @JsonView({DoctorProjections.Page.class, DoctorProjections.Resume.class, DoctorProjections.ResumeToAppointments.class})
+    @JsonView({DoctorProjections.Page.class, DoctorProjections.Resume.class, DoctorProjections.ResumeToAppointments.class, DoctorProjections.Create.class})
     private String crm;
 
     public String getCrm() {
