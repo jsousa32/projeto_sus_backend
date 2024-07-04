@@ -22,7 +22,7 @@ import java.util.UUID;
  * @sincer 01/07/2024
  */
 @RestController
-@RequestMapping(path = "v1/pacient")
+@RequestMapping(path = "v1/pacients")
 @Tag(name = "Módulo de Pacientes")
 public class PacientController {
 
