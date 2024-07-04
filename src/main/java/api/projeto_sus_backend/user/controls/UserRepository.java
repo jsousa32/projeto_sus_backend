@@ -1,8 +1,11 @@
 package api.projeto_sus_backend.user.controls;
 
+import api.projeto_sus_backend.application.controls.ApplicationProjections;
 import api.projeto_sus_backend.user.entities.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,4 +26,12 @@ public interface UserRepository<T extends UserSchema> extends JpaRepository<T, U
     Optional<T> findByEmail(@Param("email") String email);
 
     Optional<T> findByDocument(@Param("document") String document);
+
+    @Query("""
+            SELECT
+                u.id as id, u.disabled as disabled, u.email as email, u.password as password, u.permissions as permissions
+            FROM UserSchema u
+            WHERE u.email = :email
+            """)
+    Optional<ApplicationProjections.UserDetails> loadUserByUsername(@Param("email") String email);
 }

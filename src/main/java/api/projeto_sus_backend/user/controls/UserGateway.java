@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.user.controls;
 
+import api.projeto_sus_backend.user.entities.User;
 import api.projeto_sus_backend.user.entities.UserSchema;
 import org.springframework.stereotype.Component;
 
@@ -28,5 +29,9 @@ public class UserGateway {
         userRepository.findByDocument(document).ifPresent((user) -> {
             throw new UserExceptions.DocumentAlreadyUsed();
         });
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).map(UserMapper::convert).orElseThrow(UserExceptions.NotFound::new);
     }
 }
