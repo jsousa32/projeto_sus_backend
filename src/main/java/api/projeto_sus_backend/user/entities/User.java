@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class User extends Generic {
     private String document;
 
     @JsonIgnore
-    @JsonView(UserProjections.Document.class)
+    @JsonView(UserProjections.Permission.class)
     private final List<Permissions> permissions = new ArrayList<>();
 
     public UUID getId() {
@@ -99,6 +100,10 @@ public class User extends Generic {
         this.password = password;
     }
 
+    public void encryptPassword() {
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
     public String getTelephone() {
         return telephone;
     }
@@ -117,5 +122,61 @@ public class User extends Generic {
 
     public List<Permissions> getPermissions() {
         return permissions;
+    }
+
+    /**
+     * The Builder of User
+     */
+    public static class Builder {
+        private User user;
+
+        public Builder builder() {
+            this.user = new User();
+            return this;
+        }
+
+        public Builder setId(UUID id) {
+            this.user.setId(id);
+            return this;
+        }
+
+        public Builder setFirstName(String firstName) {
+            this.user.setFirstName(firstName);
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            this.user.setLastName(lastName);
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.user.setEmail(email);
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.user.setPassword(password);
+            return this;
+        }
+
+        public Builder setTelephone(String telephone) {
+            this.user.setTelephone(telephone);
+            return this;
+        }
+
+        public Builder setDocument(String document) {
+            this.user.setDocument(document);
+            return this;
+        }
+
+        public Builder setPermissions(List<Permissions> permissions) {
+            this.user.getPermissions().addAll(permissions);
+            return this;
+        }
+
+        public User build() {
+            return this.user;
+        }
     }
 }
