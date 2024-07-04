@@ -12,7 +12,7 @@
 	<artifactId>projeto-sus-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>projeto-sus-backend</name>
-	<description>Desenvolvimento de uma API para Gerenciamento de Consultas nas UBS&apos;s</description>
+	<description>Desenvolvimento de uma API para Gestão de Consultas nas UBS&apos;s</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -46,7 +46,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
