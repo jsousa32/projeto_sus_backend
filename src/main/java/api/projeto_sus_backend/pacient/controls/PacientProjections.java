@@ -13,19 +13,22 @@ import java.util.List;
  */
 public class PacientProjections {
 
-    public interface Page extends
-            UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone {
+    public interface Page extends UserProjections.Page {
 
         String getSusNumber();
     }
 
-    public interface Resume extends
-            UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone,
-            UserProjections.Document, AppointmentProjections.Resume {
+    public interface Resume extends UserProjections.Resume, AppointmentProjections.Resume {
 
         String getSusNumber();
 
         List<AppointmentProjections.Resume> getAppointments();
+    }
+
+    public interface Create extends UserProjections.Create {
+    }
+
+    public interface EditablesFields extends UserProjections.EditablesFields {
     }
 
     public interface ResumeToAppointment extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName {

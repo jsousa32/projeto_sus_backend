@@ -10,18 +10,19 @@ import api.projeto_sus_backend.user.controls.UserProjections;
  */
 public class DoctorProjections {
 
-    public interface Page extends
-            UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone {
+    public interface Page extends UserProjections.Page {
 
         String getCrm();
     }
 
-    public interface Resume extends
-            UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email, UserProjections.Telephone,
-            UserProjections.Document {
+    public interface Resume extends UserProjections.Resume {
 
         String getCrm();
     }
+
+    public interface Create extends UserProjections.Create {}
+
+    public interface EditablesFields extends UserProjections.EditablesFields {}
 
     public interface ResumeToAppointments extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName {
         String getCrm();

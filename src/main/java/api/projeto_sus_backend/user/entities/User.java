@@ -27,38 +27,37 @@ public class User extends Generic {
     @JsonView(UserProjections.Id.class)
     private UUID id;
 
-    @NotBlank(message = "Nome é obrigatório")
+    @NotBlank(message = "Nome é obrigatório", groups = UserProjections.FirstName.class)
     @JsonView(UserProjections.FirstName.class)
     private String firstName;
 
-    @NotBlank(message = "Sobrenome é obrigatório")
+    @NotBlank(message = "Sobrenome é obrigatório", groups = UserProjections.LastName.class)
     @JsonView(UserProjections.LastName.class)
     private String lastName;
 
-    @NotBlank(message = "Email é obrigatório")
+    @NotBlank(message = "Email é obrigatório", groups = UserProjections.Email.class)
     @Email(message = "Email inválido")
     @JsonView(UserProjections.Email.class)
     private String email;
 
-    @NotBlank(message = "Senha é obrigatório")
+    @NotBlank(message = "Senha é obrigatório", groups = UserProjections.Password.class)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonView(UserProjections.Password.class)
     private String password;
 
-    @NotBlank(message = "Telefone é obrigatório")
+    @NotBlank(message = "Telefone é obrigatório", groups = UserProjections.Telephone.class)
     @Pattern(regexp = "\\d{11}$", message = "Telefone inválido")
     @JsonView(UserProjections.Telephone.class)
     private String telephone;
 
-    @NotBlank(message = "CPF é obrigatório")
+    @NotBlank(message = "CPF é obrigatório", groups = UserProjections.Document.class)
     @CPF(message = "CPF inválido")
     @JsonView(UserProjections.Document.class)
     private String document;
 
-
     @JsonIgnore
     @JsonView(UserProjections.Document.class)
-    private List<Permissions> permissions = new ArrayList<>();
+    private final List<Permissions> permissions = new ArrayList<>();
 
     public UUID getId() {
         return id;

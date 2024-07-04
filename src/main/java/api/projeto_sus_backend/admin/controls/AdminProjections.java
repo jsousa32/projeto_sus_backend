@@ -10,9 +10,15 @@ import api.projeto_sus_backend.user.controls.UserProjections;
  */
 public class AdminProjections {
 
-    public interface Page extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email {
+    public interface Page extends UserProjections.Page {
     }
 
-    public interface Resume extends Page {
+    public interface Resume extends UserProjections.Resume {
+    }
+
+    public interface Create extends UserProjections.Create {
+    }
+
+    public interface EditablesFields extends UserProjections.EditablesFields {
     }
 }

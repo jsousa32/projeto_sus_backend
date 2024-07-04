@@ -40,6 +40,7 @@ public class DoctorController {
      */
     @Operation(summary = "Endpoint responsável por criar um novo médico")
     @PostMapping
+    @JsonView(DoctorProjections.Create.class)
     public ResponseEntity<Void> save(@Valid @RequestBody Doctor doctor) {
 
         doctorBusiness.save(doctor);
@@ -111,6 +112,7 @@ public class DoctorController {
      */
     @Operation(summary = "Endpoint responsável por editar um médico")
     @PatchMapping
+    @JsonView(DoctorProjections.EditablesFields.class)
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
             @Valid @RequestBody Doctor doctor

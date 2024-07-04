@@ -25,7 +25,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Pacient extends User {
 
-    @NotBlank(message = "Número do SUS obrigatório")
+    @NotBlank(message = "Número do SUS obrigatório", groups = PacientProjections.Create.class)
     @Pattern(regexp = "\\d{15}$", message = "Número do SUS inválido")
     @JsonView({PacientProjections.Page.class, PacientProjections.Resume.class, PacientProjections.ResumeToAppointment.class})
     private String susNumber;

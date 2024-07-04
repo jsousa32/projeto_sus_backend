@@ -34,13 +34,14 @@ public class PacientController {
 
 
     /**
-     * Endpoint responsável por criar um novo paciente
+     * Endpoint responsável por criar um paciente
      *
      * @param pacient;
      * @return ResponseEntity<Void>;
      */
     @Operation(summary = "Endpoint responsável por criar um novo paciente")
     @PostMapping
+    @JsonView(PacientProjections.Create.class)
     public ResponseEntity<Void> save(@Valid @RequestBody Pacient pacient) {
 
         pacientBusiness.save(pacient);
@@ -115,6 +116,7 @@ public class PacientController {
      */
     @Operation(summary = "Endpoint responsável por editar um paciente")
     @PatchMapping
+    @JsonView(PacientProjections.EditablesFields.class)
     public ResponseEntity<Void> update(
             @RequestParam(value = "id") UUID id,
             @Valid @RequestBody Pacient pacient) {

@@ -1,7 +1,9 @@
 package api.projeto_sus_backend.admin.boundary;
 
+import api.projeto_sus_backend.admin.controls.AdminProjections;
 import api.projeto_sus_backend.admin.entities.Admin;
 import api.projeto_sus_backend.utils.CustomPageable;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,6 +39,7 @@ public class AdminController {
      */
     @Operation(summary = "Endpoint responsável pela criação de um administrador")
     @PostMapping
+    @JsonView(AdminProjections.Create.class)
     public ResponseEntity<Void> save(@Valid @RequestBody Admin admin) {
 
         adminBusiness.save(admin);
@@ -55,6 +58,7 @@ public class AdminController {
      */
     @Operation(summary = "Endpoint responsável pela busca de todos os administradores do sistema")
     @GetMapping("all")
+    @JsonView(AdminProjections.Page.class)
     public ResponseEntity<Page<Admin>> findAll(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
@@ -74,6 +78,7 @@ public class AdminController {
      */
     @Operation(summary = "Endpoint responsável pela busca de um administrador")
     @GetMapping
+    @JsonView(AdminProjections.Resume.class)
     public ResponseEntity<Admin> findById(@RequestParam(name = "id") UUID id) {
         Admin response = adminBusiness.findById(id);
 
@@ -90,6 +95,7 @@ public class AdminController {
      */
     @Operation(summary = "Endpoint responsável pela atualização de um administrador")
     @PatchMapping
+    @JsonView(AdminProjections.EditablesFields.class)
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
             @Valid @RequestBody Admin admin

@@ -10,6 +10,20 @@ import java.util.UUID;
  */
 public class UserProjections {
 
+    public interface Page extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.Email,
+            UserProjections.Telephone, UserProjections.Document {
+    }
+
+    public interface Resume extends UserProjections.Page {
+    }
+
+    public interface Create extends UserProjections.Resume, UserProjections.Password {
+    }
+
+    public interface EditablesFields extends UserProjections.FirstName, UserProjections.LastName, UserProjections.Email,
+            UserProjections.Telephone {
+    }
+
     public interface Id {
         UUID getId();
     }
