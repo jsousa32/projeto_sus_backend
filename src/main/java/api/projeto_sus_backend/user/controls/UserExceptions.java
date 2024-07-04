@@ -22,4 +22,10 @@ public class UserExceptions {
             super("Documento já cadastrado", HttpStatus.CONFLICT);
         }
     }
+
+    public static class NotFound extends ApplicationException {
+        public NotFound() {
+            super("Usuário não encontrado", HttpStatus.NOT_FOUND);
+        }
+    }
 }
