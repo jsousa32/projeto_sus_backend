@@ -37,5 +37,5 @@ public interface AdminRepository extends JpaRepository<AdminSchema, UUID> {
                 a.id as id, a.firstName as firstName, a.lastName as lastName, a.email as email
             FROM AdminSchema a
             """)
-    Optional<AdminSchema> findByIdResume(@Param("id") UUID id);
+    Optional<AdminProjections.Page> findByIdResume(@Param("id") UUID id);
 }
