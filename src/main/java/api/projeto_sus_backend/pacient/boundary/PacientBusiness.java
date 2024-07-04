@@ -43,6 +43,8 @@ public class PacientBusiness {
 
         userGateway.existsByDocument(pacient.getDocument());
 
+        pacient.encryptPassword();
+
         pacient.getPermissions().add(Permissions.PACIENT);
 
         pacientGateway.save(pacient);
