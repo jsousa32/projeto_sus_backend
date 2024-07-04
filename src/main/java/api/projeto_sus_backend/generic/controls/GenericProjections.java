@@ -19,4 +19,20 @@ public class GenericProjections {
 
         boolean isDisabled();
     }
+
+    public interface CreatedAt {
+        LocalDateTime getCreatedAt();
+    }
+
+    public interface UpdatedAt {
+        LocalDateTime getUpdatedAt();
+    }
+
+    public interface DisabledAt {
+        LocalDateTime getDisabledAt();
+    }
+
+    public interface IsDisabled {
+        boolean isDisabled();
+    }
 }
