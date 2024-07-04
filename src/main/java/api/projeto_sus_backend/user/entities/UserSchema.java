@@ -42,7 +42,7 @@ public class UserSchema extends GenericSchema {
     @Column(nullable = false, length = 100, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(length = 200)
     private String password;
 
     @Column(nullable = false, length = 11)
