@@ -23,6 +23,9 @@ public class UserProjections {
     public interface Create extends UserProjections.Resume, UserProjections.Password {
     }
 
+    public interface CreateWithoutPassword extends UserProjections.Resume {
+    }
+
     public interface EditablesFields extends UserProjections.FirstName, UserProjections.LastName, UserProjections.Email,
             UserProjections.Telephone {
     }
