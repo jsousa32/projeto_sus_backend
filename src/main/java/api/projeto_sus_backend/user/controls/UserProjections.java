@@ -1,5 +1,8 @@
 package api.projeto_sus_backend.user.controls;
 
+import api.projeto_sus_backend.user.entities.enums.Permissions;
+
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -50,5 +53,9 @@ public class UserProjections {
 
     public interface Document {
         String getDocument();
+    }
+
+    public interface Permission {
+        List<Permissions> getPermissions();
     }
 }
