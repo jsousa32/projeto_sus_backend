@@ -20,7 +20,7 @@ public class DoctorProjections {
         String getCrm();
     }
 
-    public interface Create extends UserProjections.Create {}
+    public interface Create extends UserProjections.CreateWithoutPassword {}
 
     public interface EditablesFields extends UserProjections.EditablesFields {}
 

@@ -16,7 +16,7 @@ public class AdminProjections {
     public interface Resume extends UserProjections.Resume {
     }
 
-    public interface Create extends UserProjections.Create {
+    public interface Create extends UserProjections.CreateWithoutPassword {
     }
 
     public interface EditablesFields extends UserProjections.EditablesFields {
