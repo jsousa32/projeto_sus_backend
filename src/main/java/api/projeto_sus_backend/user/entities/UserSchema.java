@@ -2,7 +2,9 @@ package api.projeto_sus_backend.user.entities;
 
 import api.projeto_sus_backend.generic.entities.GenericSchema;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +59,12 @@ public class UserSchema extends GenericSchema {
             indexes = {@Index(columnList = "user_id")})
     @Column(name = "permission")
     private List<Permissions> permissions = new ArrayList<>();
+
+    @Column(name = "email_confirmed")
+    private boolean emailConfirmed;
+
+    @Column(name = "code_email_confirmation", length = 6, nullable = false)
+    private String codeEmailConfirmation;
 
     public UUID getId() {
         return id;
@@ -116,5 +124,21 @@ public class UserSchema extends GenericSchema {
 
     public List<Permissions> getPermissions() {
         return permissions;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
+    public String getCodeEmailConfirmation() {
+        return codeEmailConfirmation;
+    }
+
+    public void setCodeEmailConfirmation(String codeEmailConfirmation) {
+        this.codeEmailConfirmation = codeEmailConfirmation;
     }
 }

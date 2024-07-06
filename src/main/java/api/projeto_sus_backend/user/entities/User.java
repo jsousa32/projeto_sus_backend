@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -59,6 +61,14 @@ public class User extends Generic {
     @JsonIgnore
     @JsonView(UserProjections.Permission.class)
     private final List<Permissions> permissions = new ArrayList<>();
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(UserProjections.EmailConfirmed.class)
+    private boolean emailConfirmed = false;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(UserProjections.CodeEmailConfirmation.class)
+    private final String codeEmailConfirmation = RandomStringUtils.random(6, false, true);
 
     public UUID getId() {
         return id;
@@ -124,6 +134,18 @@ public class User extends Generic {
         return permissions;
     }
 
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
+    public String getCodeEmailConfirmation() {
+        return codeEmailConfirmation;
+    }
+
     /**
      * The Builder of User
      */
@@ -172,6 +194,16 @@ public class User extends Generic {
 
         public Builder setPermissions(List<Permissions> permissions) {
             this.user.getPermissions().addAll(permissions);
+            return this;
+        }
+
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.user.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.setCodeEmailConfirmation(codeEmailConfirmation);
             return this;
         }
 

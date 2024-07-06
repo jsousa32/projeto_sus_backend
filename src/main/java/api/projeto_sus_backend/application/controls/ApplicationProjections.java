@@ -11,7 +11,7 @@ import api.projeto_sus_backend.user.controls.UserProjections;
  */
 public class ApplicationProjections {
 
-    public interface UserDetails extends UserProjections.Id, GenericProjections.IsDisabled, UserProjections.Email, UserProjections.Password,
-            UserProjections.Permission {
+    public interface UserDetails extends UserProjections.Id, UserProjections.FirstName, UserProjections.LastName, UserProjections.EmailConfirmed,
+            GenericProjections.IsDisabled, UserProjections.Email, UserProjections.Password, UserProjections.Permission {
     }
 }

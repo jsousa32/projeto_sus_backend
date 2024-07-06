@@ -61,4 +61,12 @@ public class UserProjections {
     public interface Permission {
         List<Permissions> getPermissions();
     }
+
+    public interface EmailConfirmed {
+        boolean isEmailConfirmed();
+    }
+
+    public interface CodeEmailConfirmation {
+        String codeEmailConfirmed();
+    }
 }

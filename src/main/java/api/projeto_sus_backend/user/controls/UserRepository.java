@@ -29,7 +29,8 @@ public interface UserRepository<T extends UserSchema> extends JpaRepository<T, U
 
     @Query("""
             SELECT
-                u.id as id, u.disabled as disabled, u.email as email, u.password as password, u.permissions as permissions
+                u.id as id, u.firstName as firstName, u.lastName as lastName, u.emailConfirmed as emailConfirmed, u.disabled as disabled,
+                u.email as email, u.password as password, u.permissions as permissions
             FROM UserSchema u
             WHERE u.email = :email
             """)

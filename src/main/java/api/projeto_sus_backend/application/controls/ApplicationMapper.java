@@ -13,6 +13,8 @@ public class ApplicationMapper {
     public static PrincipalDetails convert(ApplicationProjections.UserDetails userDetails) {
         return new PrincipalDetails.Builder().builder()
                 .setId(userDetails.getId())
+                .setName(userDetails.getFirstName().concat(" ").concat(userDetails.getLastName()))
+                .setEmailConfirmed(userDetails.isEmailConfirmed())
                 .setDisabled(userDetails.isDisabled())
                 .setEmail(userDetails.getEmail())
                 .setPassword(userDetails.getPassword())

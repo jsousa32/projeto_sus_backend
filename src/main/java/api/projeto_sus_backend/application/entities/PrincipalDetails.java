@@ -20,6 +20,10 @@ public class PrincipalDetails implements UserDetails {
 
     private UUID id;
 
+    private String name;
+
+    private boolean emailConfirmed;
+
     private boolean disabled;
 
     private String email;
@@ -34,6 +38,22 @@ public class PrincipalDetails implements UserDetails {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
     }
 
     public boolean isDisabled() {
@@ -102,37 +122,47 @@ public class PrincipalDetails implements UserDetails {
         private PrincipalDetails principalDetails;
 
         public Builder builder() {
-            principalDetails = new PrincipalDetails();
+            this.principalDetails = new PrincipalDetails();
             return this;
         }
 
         public Builder setId(UUID id) {
-            principalDetails.setId(id);
+            this.principalDetails.setId(id);
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.principalDetails.setName(name);
+            return this;
+        }
+
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.principalDetails.setEmailConfirmed(emailConfirmed);
             return this;
         }
 
         public Builder setDisabled(boolean disabled) {
-            principalDetails.setDisabled(disabled);
+            this.principalDetails.setDisabled(disabled);
             return this;
         }
 
         public Builder setEmail(String email) {
-            principalDetails.setEmail(email);
+            this.principalDetails.setEmail(email);
             return this;
         }
 
         public Builder setPassword(String password) {
-            principalDetails.setPassword(password);
+            this.principalDetails.setPassword(password);
             return this;
         }
 
         public Builder setPermissions(List<Permissions> permissions) {
-            principalDetails.getPermissions().addAll(permissions);
+            this.principalDetails.getPermissions().addAll(permissions);
             return this;
         }
 
         public PrincipalDetails build() {
-            return principalDetails;
+            return this.principalDetails;
         }
     }
 }

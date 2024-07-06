@@ -38,9 +38,9 @@ public class JwtService {
             Algorithm algorithm = getAlgorithm();
 
             String token = JWT.create().withIssuer(ISSUER).withSubject(principalDetails.getEmail())
-                    .withExpiresAt(genExpirationDate()).sign(algorithm);
+                    .withExpiresAt(genExpirationInstant()).sign(algorithm);
 
-            return new AccessTokenResponse(token);
+            return new AccessTokenResponse(token, principalDetails.isEmailConfirmed(), principalDetails.getName(), genExpirationDate());
         } catch (JWTCreationException exception) {
             throw new ApplicationException("Erro ao criar o JWT", HttpStatus.BAD_REQUEST);
         }
@@ -78,7 +78,11 @@ public class JwtService {
      *
      * @return Instant;
      */
-    private static Instant genExpirationDate() {
+    private static Instant genExpirationInstant() {
         return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    private static LocalDateTime genExpirationDate() {
+        return LocalDateTime.now().plusHours(3).atZone(ZoneOffset.of("-03:00")).toLocalDateTime();
     }
 }
