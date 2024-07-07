@@ -1,6 +1,6 @@
 package api.projeto_sus_backend.application.boundary;
 
-import api.projeto_sus_backend.application.entities.AccessTokenResponse;
+import api.projeto_sus_backend.application.entities.AuthResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class AuthBusiness {
      *
      * @return AccessTokenResponse;
      */
-    public AccessTokenResponse login(Authentication authentication) {
+    public AuthResponse login(Authentication authentication) {
         return jwtService.generateToken(authentication);
     }
 }

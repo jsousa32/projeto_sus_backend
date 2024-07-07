@@ -1,8 +1,7 @@
 package api.projeto_sus_backend.application.boundary;
 
-import api.projeto_sus_backend.application.entities.AccessTokenResponse;
-import api.projeto_sus_backend.user.controls.UserGateway;
-import api.projeto_sus_backend.user.entities.User;
+import api.projeto_sus_backend.application.entities.AuthResponse;
+import api.projeto_sus_backend.application.entities.PrincipalDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -28,15 +27,17 @@ public class JwtService {
 
     private final JwtEncoder jwtEncoder;
 
-    private final UserGateway userGateway;
-
-    public JwtService(JwtEncoder jwtEncoder,
-                      UserGateway userGateway) {
+    public JwtService(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
-        this.userGateway = userGateway;
     }
 
-    public AccessTokenResponse generateToken(Authentication authentication) {
+    /**
+     * Metodo responsável por gerar o token
+     *
+     * @param authentication;
+     * @return AccessTokenResponse;
+     */
+    public AuthResponse generateToken(Authentication authentication) {
         Instant createdAt = Instant.now();
         Instant expiresAt = LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
 
@@ -50,10 +51,21 @@ public class JwtService {
 
         String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
-        User user = userGateway.findByEmail(authentication.getName());
+        return generateResponse(token, (PrincipalDetails) authentication.getPrincipal());
+    }
 
-        return new AccessTokenResponse.Builder().builder().accessToken(token).name(user.getFirstName(), user.getLastName())
-                .emailConfirmed(user.isEmailConfirmed()).createdAt(LocalDateTime.now()).expiresAt(LocalDateTime.now().plusHours(3))
-                .build();
+    /**
+     * Metodo responsável por gerar o objeto de respsota ao login
+     *
+     * @param token;
+     * @param principal;
+     * @return AccessTokenResponse;
+     */
+    private AuthResponse generateResponse(String token, PrincipalDetails principal) {
+        LocalDateTime createdAt = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime expiresAt = createdAt.plusHours(3);
+
+        return new AuthResponse.Builder().builder().accessToken(token).name(principal.getName())
+                .emailConfirmed(principal.isEmailConfirmed()).createdAt(createdAt).expiresAt(expiresAt).build();
     }
 }

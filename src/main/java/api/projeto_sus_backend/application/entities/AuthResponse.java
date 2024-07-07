@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * @author João Lucas Silva de Sousa
  * @sincer 04/07/2024
  */
-public class AccessTokenResponse {
+public class AuthResponse {
 
     private String accessToken;
 
@@ -45,40 +45,40 @@ public class AccessTokenResponse {
      * The Builder of AccessTokenResponse
      */
     public static class Builder {
-        private AccessTokenResponse accessTokenResponse;
+        private AuthResponse authResponse;
 
         public Builder builder() {
-            this.accessTokenResponse = new AccessTokenResponse();
+            this.authResponse = new AuthResponse();
             return this;
         }
 
         public Builder accessToken(String accessToken) {
-            this.accessTokenResponse.accessToken = accessToken;
+            this.authResponse.accessToken = accessToken;
             return this;
         }
 
         public Builder emailConfirmed(boolean emailConfirmed) {
-            this.accessTokenResponse.emailConfirmed = emailConfirmed;
+            this.authResponse.emailConfirmed = emailConfirmed;
             return this;
         }
 
-        public Builder name(String firstName, String lastName) {
-            this.accessTokenResponse.name = firstName + " " + lastName;
+        public Builder name(String name) {
+            this.authResponse.name = name;
             return this;
         }
 
         public Builder createdAt(LocalDateTime createdAt) {
-            this.accessTokenResponse.createdAt = createdAt;
+            this.authResponse.createdAt = createdAt;
             return this;
         }
 
         public Builder expiresAt(LocalDateTime expiresAt) {
-            this.accessTokenResponse.expiresAt = expiresAt;
+            this.authResponse.expiresAt = expiresAt;
             return this;
         }
 
-        public AccessTokenResponse build() {
-            return this.accessTokenResponse;
+        public AuthResponse build() {
+            return this.authResponse;
         }
     }
 }
