@@ -20,3 +20,10 @@ spring:
   jackson:
     mapper:
       DEFAULT_VIEW_INCLUSION: true
+
+
+jwt:
+  public:
+    key: classpath:app.pub
+  private:
+    key: classpath:app.key

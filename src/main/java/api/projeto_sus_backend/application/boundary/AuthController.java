@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,8 +34,8 @@ public class AuthController {
      */
     @Operation(summary = "Endpoint responsável por realizar o login do usuário")
     @PostMapping
-    public ResponseEntity<AccessTokenResponse> login() {
-        AccessTokenResponse response = authBusiness.login();
+    public ResponseEntity<AccessTokenResponse> login(Authentication authentication) {
+        AccessTokenResponse response = authBusiness.login(authentication);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

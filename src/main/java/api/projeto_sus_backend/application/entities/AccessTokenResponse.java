@@ -16,14 +16,9 @@ public class AccessTokenResponse {
 
     private String name;
 
-    private LocalDateTime expiresAt;
+    private LocalDateTime createdAt;
 
-    public AccessTokenResponse(String accessToken, boolean emailConfirmed, String name, LocalDateTime expiresAt) {
-        this.accessToken = accessToken;
-        this.emailConfirmed = emailConfirmed;
-        this.name = name;
-        this.expiresAt = expiresAt;
-    }
+    private LocalDateTime expiresAt;
 
     public String getAccessToken() {
         return accessToken;
@@ -37,7 +32,53 @@ public class AccessTokenResponse {
         return name;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public LocalDateTime getExpiresAt() {
         return expiresAt;
+    }
+
+
+    /**
+     * The Builder of AccessTokenResponse
+     */
+    public static class Builder {
+        private AccessTokenResponse accessTokenResponse;
+
+        public Builder builder() {
+            this.accessTokenResponse = new AccessTokenResponse();
+            return this;
+        }
+
+        public Builder accessToken(String accessToken) {
+            this.accessTokenResponse.accessToken = accessToken;
+            return this;
+        }
+
+        public Builder emailConfirmed(boolean emailConfirmed) {
+            this.accessTokenResponse.emailConfirmed = emailConfirmed;
+            return this;
+        }
+
+        public Builder name(String firstName, String lastName) {
+            this.accessTokenResponse.name = firstName + " " + lastName;
+            return this;
+        }
+
+        public Builder createdAt(LocalDateTime createdAt) {
+            this.accessTokenResponse.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder expiresAt(LocalDateTime expiresAt) {
+            this.accessTokenResponse.expiresAt = expiresAt;
+            return this;
+        }
+
+        public AccessTokenResponse build() {
+            return this.accessTokenResponse;
+        }
     }
 }

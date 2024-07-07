@@ -1,18 +1,19 @@
 package api.projeto_sus_backend.application.boundary;
 
-import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.entities.AccessTokenResponse;
-import api.projeto_sus_backend.application.entities.PrincipalDetails;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import org.springframework.http.HttpStatus;
+import api.projeto_sus_backend.user.controls.UserGateway;
+import api.projeto_sus_backend.user.entities.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.stream.Collectors;
 
 /**
  * The Class JwtService
@@ -23,66 +24,36 @@ import java.time.ZoneOffset;
 @Service
 public class JwtService {
 
-    private final static String SECRET = "TOKEN";
-
     private final static String ISSUER = "SUS-Api";
 
-    /**
-     * Metodo responsável por gerar um token
-     *
-     * @param principalDetails;
-     * @return AccessTokenResponse;
-     */
-    public AccessTokenResponse getAccessToken(PrincipalDetails principalDetails) {
-        try {
-            Algorithm algorithm = getAlgorithm();
+    private final JwtEncoder jwtEncoder;
 
-            String token = JWT.create().withIssuer(ISSUER).withSubject(principalDetails.getEmail())
-                    .withExpiresAt(genExpirationInstant()).sign(algorithm);
+    private final UserGateway userGateway;
 
-            return new AccessTokenResponse(token, principalDetails.isEmailConfirmed(), principalDetails.getName(), genExpirationDate());
-        } catch (JWTCreationException exception) {
-            throw new ApplicationException("Erro ao criar o JWT", HttpStatus.BAD_REQUEST);
-        }
+    public JwtService(JwtEncoder jwtEncoder,
+                      UserGateway userGateway) {
+        this.jwtEncoder = jwtEncoder;
+        this.userGateway = userGateway;
     }
 
-    /**
-     * Metodo responsável por validar o token e retornar o subject do mesmo
-     *
-     * @param token;
-     * @return String;
-     */
-    public String validateToken(String token) {
-        try {
+    public AccessTokenResponse generateToken(Authentication authentication) {
+        Instant createdAt = Instant.now();
+        Instant expiresAt = LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
 
-            Algorithm algorithm = getAlgorithm();
+        String authorities = authentication
+                .getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(", "));
 
-            return JWT.require(algorithm).withIssuer(ISSUER).build().verify(token).getSubject();
-        } catch (JWTVerificationException exception) {
-            throw new ApplicationException("Erro ao validator o token JWT", HttpStatus.BAD_REQUEST);
-        }
-    }
+        JwtClaimsSet claims = JwtClaimsSet.builder().issuer(ISSUER).issuedAt(createdAt).expiresAt(expiresAt).subject(authentication.getName())
+                .claim("authorities", authorities).build();
 
-    /**
-     * Metodo responsável por criar o algoritmo do jwt
-     *
-     * @return Algorithm;
-     */
-    private static Algorithm getAlgorithm() {
-        return Algorithm.HMAC256(SECRET);
-    }
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
+        User user = userGateway.findByEmail(authentication.getName());
 
-    /**
-     * Metodo responsável por gerar o instante de expiração do token
-     *
-     * @return Instant;
-     */
-    private static Instant genExpirationInstant() {
-        return LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
-    }
-
-    private static LocalDateTime genExpirationDate() {
-        return LocalDateTime.now().plusHours(3).atZone(ZoneOffset.of("-03:00")).toLocalDateTime();
+        return new AccessTokenResponse.Builder().builder().accessToken(token).name(user.getFirstName(), user.getLastName())
+                .emailConfirmed(user.isEmailConfirmed()).createdAt(LocalDateTime.now()).expiresAt(LocalDateTime.now().plusHours(3))
+                .build();
     }
 }
