@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -41,11 +42,12 @@ public class AppointmentsController {
     @PostMapping
     @JsonView(AppointmentProjections.Create.class)
     public ResponseEntity<Void> save(
+            JwtAuthenticationToken authenticationToken,
             @RequestParam(name = "pacientId") UUID pacientId,
             @RequestParam(name = "doctorId") UUID doctorId,
             @Valid @RequestBody Appointment appointment) {
 
-        appointmentBusiness.save(pacientId, doctorId, appointment);
+        appointmentBusiness.save(authenticationToken, pacientId, doctorId, appointment);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -97,10 +99,11 @@ public class AppointmentsController {
     @PatchMapping
     @JsonView(AppointmentProjections.Update.class)
     public ResponseEntity<Void> update(
+            JwtAuthenticationToken authenticationToken,
             @RequestParam(name = "id") UUID id,
             @Valid @RequestBody Appointment appointment
     ) {
-        appointmentBusiness.update(id, appointment);
+        appointmentBusiness.update(authenticationToken, id, appointment);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

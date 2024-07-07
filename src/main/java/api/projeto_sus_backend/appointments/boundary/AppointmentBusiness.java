@@ -7,9 +7,11 @@ import api.projeto_sus_backend.appointments.entities.Appointment;
 import api.projeto_sus_backend.doctor.controls.DoctorGateway;
 import api.projeto_sus_backend.pacient.controls.PacientGateway;
 import api.projeto_sus_backend.pacient.entities.Pacient;
+import api.projeto_sus_backend.utils.helpers.JwtHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,12 +50,13 @@ public class AppointmentBusiness {
     /**
      * Metodo responsável por criar uma consulta
      *
-     * @param pacientId;
-     * @param doctorId;
-     * @param appointment;
+     * @param authenticationToken
+     * @param pacientId           ;
+     * @param doctorId            ;
+     * @param appointment         ;
      */
     @Transactional(rollbackFor = ApplicationException.class)
-    public void save(UUID pacientId, UUID doctorId, Appointment appointment) {
+    public void save(JwtAuthenticationToken authenticationToken, UUID pacientId, UUID doctorId, Appointment appointment) {
 
         validationHourAndDateAppointment(appointment);
 
@@ -63,9 +66,11 @@ public class AppointmentBusiness {
 
         List<Appointment> appointments = appointmentGateway.findAllAppointmentsByDoctorId(doctorId);
 
-        validationQuantityPerHourAppointment(appointment, appointments);
+        int quantityAppointmentsPerHour = validationQuantityAppointmentPerHour(appointment, appointments);
 
-        //Adicionar Validação referente a parte de admin quanto realizar a construção do usuário
+        if(quantityAppointmentsPerHour == 2 && !JwtHelper.isAdministrator(authenticationToken)) {
+            throw new AppointmentExceptions.HasntPermission();
+        }
 
         appointment.setDoctor(doctorGateway.findById(doctorId));
 
@@ -102,10 +107,11 @@ public class AppointmentBusiness {
     /**
      * Metodo responsável por atualizar uma consulta
      *
-     * @param id;
-     * @param appointment;
+     * @param authenticationToken
+     * @param id                  ;
+     * @param appointment         ;
      */
-    public void update(UUID id, Appointment appointment) {
+    public void update(JwtAuthenticationToken authenticationToken, UUID id, Appointment appointment) {
 
         validationHourAndDateAppointment(appointment);
 
@@ -117,7 +123,13 @@ public class AppointmentBusiness {
 
         List<Appointment> appointments = appointmentGateway.findAllAppointmentsByDoctorId(appointmentDB.getDoctor().getId());
 
-        validationQuantityPerHourAppointment(appointment, appointments);
+        validationQuantityAppointmentPerHour(appointment, appointments);
+
+        int quantityAppointmentsPerHour = validationQuantityAppointmentPerHour(appointment, appointments);
+
+        if(quantityAppointmentsPerHour == 2 && !JwtHelper.isAdministrator(authenticationToken)) {
+            throw new AppointmentExceptions.HasntPermission();
+        }
 
         BeanUtils.copyProperties(appointment, appointmentDB, "id", "doctor");
 
@@ -164,8 +176,9 @@ public class AppointmentBusiness {
      *
      * @param appointment;
      * @param appointments;
+     * @return
      */
-    private static void validationQuantityPerHourAppointment(Appointment appointment, List<Appointment> appointments) {
+    private static int validationQuantityAppointmentPerHour(Appointment appointment, List<Appointment> appointments) {
         List<Appointment> appointmentsByDateAndHour =
                 appointments.stream().filter(a ->
                                 Objects.equals(a.getHour(), appointment.getHour()) &&
@@ -175,6 +188,8 @@ public class AppointmentBusiness {
         if (appointmentsByDateAndHour.size() == 3) {
             throw new AppointmentExceptions.FullTime();
         }
+
+        return appointmentsByDateAndHour.size();
     }
 
     /**

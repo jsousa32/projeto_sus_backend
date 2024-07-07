@@ -40,4 +40,10 @@ public class AppointmentExceptions {
             super("Não é possível cadastrar mais de uma consulta por semana", HttpStatus.BAD_REQUEST);
         }
     }
+
+    public static class HasntPermission extends ApplicationException {
+        public HasntPermission() {
+            super("Limite excedido. Apenas administradores podem cadastrar consultas", HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
