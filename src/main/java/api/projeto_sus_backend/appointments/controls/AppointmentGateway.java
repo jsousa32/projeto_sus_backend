@@ -23,13 +23,8 @@ public class AppointmentGateway {
         this.appointmentRepository = appointmentRepository;
     }
 
-    public void save(Appointment appointment) {
-        appointmentRepository.save(AppointmentMapper.convert(appointment));
-    }
-
-    public Appointment saveAndReturn(Appointment appointment) {
+    public Appointment save(Appointment appointment) {
         return AppointmentMapper.convert(appointmentRepository.save(AppointmentMapper.convert(appointment)));
-
     }
 
     public List<Appointment> findAllAppointmentsByDoctorId(UUID doctorId) {
