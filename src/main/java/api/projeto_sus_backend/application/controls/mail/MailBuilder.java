@@ -1,10 +1,8 @@
 package api.projeto_sus_backend.application.controls.mail;
 
-import api.projeto_sus_backend.application.controls.ApplicationException;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -44,7 +42,7 @@ public class MailBuilder {
     }
 
     public MailBuilder to(String to) {
-        this.to = to.split("");
+        this.to = new String[]{to};
         return this;
     }
 
