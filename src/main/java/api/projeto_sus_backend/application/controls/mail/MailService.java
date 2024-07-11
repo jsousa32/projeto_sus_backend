@@ -3,6 +3,7 @@ package api.projeto_sus_backend.application.controls.mail;
 import api.projeto_sus_backend.application.entities.ForgotPassword;
 import api.projeto_sus_backend.application.entities.ModelCustomConfiguration;
 import api.projeto_sus_backend.user.entities.User;
+import api.projeto_sus_backend.utils.CryptographyUtils;
 import api.projeto_sus_backend.utils.TemplatesPath;
 import freemarker.template.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -42,8 +43,8 @@ public class MailService {
         String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
 
         String url = frontendUrlApplication
-                .concat("reset?token=" + forgotPassword.getId())
-                .concat("&userId" + forgotPassword.getUserId())
+                .concat("reset?forgotId=" + CryptographyUtils.encrypt(forgotPassword.getId(), modelCustomConfiguration.getSecret()))
+                .concat("&userId" + CryptographyUtils.encrypt(forgotPassword.getUserId(), modelCustomConfiguration.getSecret()))
                 .concat("&expiresAt" + forgotPassword.getExpiresAt());
 
         Map<String, Object> params = new HashMap<>();
