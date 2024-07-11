@@ -22,4 +22,10 @@ public class AdminExceptions {
             super("Administrador não encontrado", HttpStatus.NOT_FOUND);
         }
     }
+
+    public static class NeedOneAdmin extends ApplicationException {
+        public NeedOneAdmin() {
+            super("O sistema necessita de ao menos um administrador", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
