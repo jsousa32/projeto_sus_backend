@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 /**
  * The Class AuthController
  *
@@ -72,6 +74,18 @@ public class AuthController {
             @RequestParam(name = "email") String email
     ) {
         authBusiness.forgotPassword(email);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Endpoint responsável por realizar o resete da senha do usuário")
+    @PostMapping("reset")
+    public ResponseEntity<Void> resetPassword(
+            @RequestParam(name = "forgotId") UUID token,
+            @RequestParam(name = "userId") UUID userId,
+            @RequestParam(name = "password") String password
+    ) {
+        authBusiness.resetPassword(token, userId, password);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

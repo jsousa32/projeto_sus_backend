@@ -1,18 +1,22 @@
 package api.projeto_sus_backend.application.boundary;
 
 import api.projeto_sus_backend.application.controls.mail.MailService;
+import api.projeto_sus_backend.application.controls.password.ForgotPasswordExceptions;
 import api.projeto_sus_backend.application.controls.password.ForgotPasswordGateway;
 import api.projeto_sus_backend.application.entities.AuthResponse;
 import api.projeto_sus_backend.application.entities.ForgotPassword;
-import api.projeto_sus_backend.user.controls.UserExceptions;
+import api.projeto_sus_backend.application.entities.ModelCustomConfiguration;
 import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.User;
+import api.projeto_sus_backend.utils.CryptographyUtils;
 import api.projeto_sus_backend.utils.helpers.JwtHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The Class AuthBusiness
@@ -31,14 +35,18 @@ public class AuthBusiness {
 
     private final MailService mailService;
 
+    private final ModelCustomConfiguration modelCustomConfiguration;
+
     public AuthBusiness(JwtService jwtService,
                         UserGateway userGateway,
                         ForgotPasswordGateway forgotPasswordGateway,
-                        MailService mailService) {
+                        MailService mailService,
+                        ModelCustomConfiguration modelCustomConfiguration) {
         this.jwtService = jwtService;
         this.userGateway = userGateway;
         this.forgotPasswordGateway = forgotPasswordGateway;
         this.mailService = mailService;
+        this.modelCustomConfiguration = modelCustomConfiguration;
     }
 
     /**
@@ -87,5 +95,34 @@ public class AuthBusiness {
         forgotPassword = forgotPasswordGateway.saveAndReturn(forgotPassword);
 
         mailService.forgotPassword(user, forgotPassword);
+    }
+
+    /**
+     * Metodo responsável por realizar o resete da senha do usuário
+     *
+     * @param forgotId;
+     * @param userId;
+     * @param password
+     */
+    public void resetPassword(UUID forgotId, UUID userId, String password) {
+        ForgotPassword forgotPassword = forgotPasswordGateway.findById(forgotId);
+
+        if (!Objects.equals(forgotPassword.getUserId(), userId)) {
+            throw new ForgotPasswordExceptions.UserIdInvalid();
+        }
+
+        if(forgotPassword.getExpiresAt().isAfter(LocalDateTime.now())) {
+            throw new ForgotPasswordExceptions.UrlExpired();
+        }
+
+        User user = userGateway.findById(userId);
+
+        password = CryptographyUtils.decrypt(password, modelCustomConfiguration.getSecret(), String.class);
+
+        user.setPassword(password);
+
+        user.encryptPassword();
+
+        userGateway.save(user);
     }
 }
