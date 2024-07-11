@@ -117,7 +117,7 @@ public class AuthBusiness {
 
         User user = userGateway.findById(userId);
 
-        password = CryptographyUtils.decrypt(password, modelCustomConfiguration.getSecret(), String.class);
+        password = CryptographyUtils.decrypt(password, modelCustomConfiguration.getSecret());
 
         user.setPassword(password);
 

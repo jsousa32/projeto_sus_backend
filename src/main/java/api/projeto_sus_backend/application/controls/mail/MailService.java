@@ -51,7 +51,7 @@ public class MailService {
         String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
 
         String url = frontendUrlApplication
-                .concat("register-password?userId=" + CryptographyUtils.encrypt(user.getId(), modelCustomConfiguration.getSecret()));
+                .concat("register-password?userId=" + CryptographyUtils.encrypt(user.getId().toString(), modelCustomConfiguration.getSecret()));
 
         Map<String, Object> params = new HashMap<>();
         params.put("url", url);
@@ -64,8 +64,8 @@ public class MailService {
         String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
 
         String url = frontendUrlApplication
-                .concat("reset?forgotId=" + CryptographyUtils.encrypt(forgotPassword.getId(), modelCustomConfiguration.getSecret()))
-                .concat("&userId" + CryptographyUtils.encrypt(forgotPassword.getUserId(), modelCustomConfiguration.getSecret()))
+                .concat("reset?forgotId=" + CryptographyUtils.encrypt(forgotPassword.getId().toString(), modelCustomConfiguration.getSecret()))
+                .concat("&userId" + CryptographyUtils.encrypt(forgotPassword.getUserId().toString(), modelCustomConfiguration.getSecret()))
                 .concat("&expiresAt" + forgotPassword.getExpiresAt());
 
         Map<String, Object> params = new HashMap<>();
