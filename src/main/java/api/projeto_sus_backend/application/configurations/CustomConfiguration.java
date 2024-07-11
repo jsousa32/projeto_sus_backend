@@ -20,9 +20,4 @@ public class CustomConfiguration {
     public ModelCustomConfiguration configuration() {
         return new ModelCustomConfiguration();
     }
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
 }
