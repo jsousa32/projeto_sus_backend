@@ -31,8 +31,8 @@ public class DoctorGateway {
         });
     }
 
-    public void save(Doctor doctor) {
-        doctorRepository.save(DoctorMapper.convert(doctor));
+    public Doctor save(Doctor doctor) {
+        return DoctorMapper.convert(doctorRepository.save(DoctorMapper.convert(doctor)));
     }
 
     public void save(User user) {

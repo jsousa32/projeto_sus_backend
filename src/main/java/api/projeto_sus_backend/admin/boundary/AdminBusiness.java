@@ -2,6 +2,7 @@ package api.projeto_sus_backend.admin.boundary;
 
 import api.projeto_sus_backend.admin.controls.AdminGateway;
 import api.projeto_sus_backend.admin.entities.Admin;
+import api.projeto_sus_backend.application.controls.mail.MailService;
 import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
 import org.springframework.beans.BeanUtils;
@@ -24,10 +25,14 @@ public class AdminBusiness {
 
     private final UserGateway userGateway;
 
+    private final MailService mailService;
+
     public AdminBusiness(AdminGateway adminGateway,
-                         UserGateway userGateway) {
+                         UserGateway userGateway,
+                         MailService mailService) {
         this.adminGateway = adminGateway;
         this.userGateway = userGateway;
+        this.mailService = mailService;
     }
 
     /**
@@ -43,7 +48,11 @@ public class AdminBusiness {
 
         admin.getPermissions().add(Permissions.ADMIN);
 
-        adminGateway.save(admin);
+        admin = adminGateway.save(admin);
+
+        mailService.emailConfirmation(admin);
+
+        mailService.registerPassword(admin);
     }
 
     /**

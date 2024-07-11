@@ -39,6 +39,27 @@ public class MailService {
         return new MailBuilder(configuration, javaMailSender);
     }
 
+    public void emailConfirmation(User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", user.getCodeEmailConfirmation());
+        params.put("name", user.getFirstName() + " " + user.getLastName());
+
+        this.builder().to(user.getEmail()).subject("Token de Confirmação").send(TemplatesPath.AUTH.EMAIL_CONFIRMATION, params);
+    }
+
+    public void registerPassword(User user) {
+        String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
+
+        String url = frontendUrlApplication
+                .concat("register-password?userId=" + CryptographyUtils.encrypt(user.getId(), modelCustomConfiguration.getSecret()));
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("url", url);
+        params.put("name", user.getFirstName() + " " + user.getLastName());
+
+        this.builder().to(user.getEmail()).subject("Cadastrar Senha").send(TemplatesPath.AUTH.REGISTER_PASSWORD, params);
+    }
+
     public void forgotPassword(User user, ForgotPassword forgotPassword) {
         String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
 

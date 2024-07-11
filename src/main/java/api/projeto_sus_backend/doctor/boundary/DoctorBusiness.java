@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.doctor.boundary;
 
+import api.projeto_sus_backend.application.controls.mail.MailService;
 import api.projeto_sus_backend.doctor.controls.DoctorGateway;
 import api.projeto_sus_backend.doctor.entities.Doctor;
 import api.projeto_sus_backend.user.controls.UserGateway;
@@ -24,10 +25,14 @@ public class DoctorBusiness {
 
     private final UserGateway userGateway;
 
+    private final MailService mailService;
+
     public DoctorBusiness(DoctorGateway doctorGateway,
-                          UserGateway userGateway) {
+                          UserGateway userGateway,
+                          MailService mailService) {
         this.doctorGateway = doctorGateway;
         this.userGateway = userGateway;
+        this.mailService = mailService;
     }
 
     /**
@@ -45,7 +50,11 @@ public class DoctorBusiness {
 
         doctor.getPermissions().add(Permissions.DOCTOR);
 
-        doctorGateway.save(doctor);
+        doctor = doctorGateway.save(doctor);
+
+        mailService.emailConfirmation(doctor);
+
+        mailService.registerPassword(doctor);
     }
 
     /**
