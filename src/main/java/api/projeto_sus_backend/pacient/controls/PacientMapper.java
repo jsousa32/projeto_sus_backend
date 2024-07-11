@@ -24,6 +24,8 @@ public class PacientMapper {
                 .setAppointments(pacient.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .setPermissions(pacient.getPermissions())
                 .setPassword(pacient.getPassword())
+                .setCodeEmailConfirmation(pacient.getCodeEmailConfirmation())
+                .setEmailConfirmed(pacient.isEmailConfirmed())
                 .setDisabledAt(pacient.getDisabledAt())
                 .setDisabled(pacient.isDisabled())
                 .build();
@@ -41,6 +43,8 @@ public class PacientMapper {
                 .setSusNumber(pacientSchema.getSusNumber())
                 .setAppointments(pacientSchema.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .setPermissions(pacientSchema.getPermissions())
+                .setCodeEmailConfirmation(pacientSchema.getCodeEmailConfirmation())
+                .setEmailConfirmed(pacientSchema.isEmailConfirmed())
                 .setCreatedAt(pacientSchema.getCreatedAt())
                 .setUpdatedAt(pacientSchema.getUpdatedAt())
                 .setDisabledAt(pacientSchema.getDisabledAt())

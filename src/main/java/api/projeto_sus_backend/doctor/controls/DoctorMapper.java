@@ -22,6 +22,8 @@ public class DoctorMapper {
                 .setCrm(doctor.getCrm())
                 .setPassword(doctor.getPassword())
                 .setPermissions(doctor.getPermissions())
+                .setCodeEmailConfirmation(doctor.getCodeEmailConfirmation())
+                .setEmailConfirmed(doctor.isEmailConfirmed())
                 .setDisabledAt(doctor.getDisabledAt())
                 .setDisabled(doctor.isDisabled())
                 .build();
@@ -38,6 +40,8 @@ public class DoctorMapper {
                 .setCrm(doctorSchema.getCrm())
                 .setPassword(doctorSchema.getPassword())
                 .setPermissions(doctorSchema.getPermissions())
+                .setCodeEmailConfirmation(doctorSchema.getCodeEmailConfirmation())
+                .setEmailConfirmed(doctorSchema.isEmailConfirmed())
                 .setDisabledAt(doctorSchema.getDisabledAt())
                 .setDisabled(doctorSchema.isDisabled())
                 .build();

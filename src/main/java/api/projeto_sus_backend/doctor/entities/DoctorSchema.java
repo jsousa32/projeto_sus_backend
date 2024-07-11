@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.doctor.entities;
 
+import api.projeto_sus_backend.pacient.entities.PacientSchema;
 import api.projeto_sus_backend.user.entities.UserSchema;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
 import jakarta.persistence.*;
@@ -86,6 +87,16 @@ public class DoctorSchema extends UserSchema {
 
         public Builder setPermissions(List<Permissions> permissions) {
             this.doctorSchema.getPermissions().addAll(permissions);
+            return this;
+        }
+
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.doctorSchema.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.doctorSchema.setCodeEmailConfirmation(codeEmailConfirmation);
             return this;
         }
 

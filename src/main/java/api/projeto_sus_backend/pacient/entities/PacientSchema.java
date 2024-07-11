@@ -105,6 +105,16 @@ public class PacientSchema extends UserSchema {
             return this;
         }
 
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.pacientSchema.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.pacientSchema.setCodeEmailConfirmation(codeEmailConfirmation);
+            return this;
+        }
+
         public Builder setDisabledAt(LocalDateTime disabledAt) {
             this.pacientSchema.setDisabledAt(disabledAt);
             return this;

@@ -67,6 +67,16 @@ public class Admin extends User {
             return this;
         }
 
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.admin.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.admin.setCodeEmailConfirmation(codeEmailConfirmation);
+            return this;
+        }
+
         public Admin build() {
             return this.admin;
         }

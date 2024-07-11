@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.admin.entities;
 
+import api.projeto_sus_backend.doctor.entities.Doctor;
 import api.projeto_sus_backend.user.entities.UserSchema;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
 import jakarta.persistence.DiscriminatorValue;
@@ -68,6 +69,16 @@ public class AdminSchema extends UserSchema {
 
         public Builder setPermissions(List<Permissions> permissions) {
             this.adminSchema.getPermissions().addAll(permissions);
+            return this;
+        }
+
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.adminSchema.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.adminSchema.setCodeEmailConfirmation(codeEmailConfirmation);
             return this;
         }
 

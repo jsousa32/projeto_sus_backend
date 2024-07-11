@@ -110,6 +110,16 @@ public class Pacient extends User {
             return this;
         }
 
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.pacient.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.pacient.setCodeEmailConfirmation(codeEmailConfirmation);
+            return this;
+        }
+
         public Builder setCreatedAt(LocalDateTime createdAt) {
             this.pacient.setCreatedAt(createdAt);
             return this;

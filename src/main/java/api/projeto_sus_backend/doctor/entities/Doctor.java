@@ -91,6 +91,16 @@ public class Doctor extends User {
             return this;
         }
 
+        public Builder setEmailConfirmed(boolean emailConfirmed) {
+            this.doctor.setEmailConfirmed(emailConfirmed);
+            return this;
+        }
+
+        public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
+            this.doctor.setCodeEmailConfirmation(codeEmailConfirmation);
+            return this;
+        }
+
         public Builder setDisabledAt(LocalDateTime disabledAt) {
             this.doctor.setDisabledAt(disabledAt);
             return this;
