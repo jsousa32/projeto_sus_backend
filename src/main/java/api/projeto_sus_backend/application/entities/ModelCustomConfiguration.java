@@ -10,11 +10,21 @@ public class ModelCustomConfiguration {
 
     private String frontendUrlApplication;
 
+    private String secret;
+
     public String getFrontendUrlApplication() {
         return frontendUrlApplication;
     }
 
     public void setFrontendUrlApplication(String frontendUrlApplication) {
         this.frontendUrlApplication = frontendUrlApplication;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }
