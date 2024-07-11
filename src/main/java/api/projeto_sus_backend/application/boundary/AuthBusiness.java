@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.application.boundary;
 
+import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.controls.mail.MailService;
 import api.projeto_sus_backend.application.controls.password.ForgotPasswordExceptions;
 import api.projeto_sus_backend.application.controls.password.ForgotPasswordGateway;
@@ -13,6 +14,7 @@ import api.projeto_sus_backend.utils.helpers.JwtHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -87,6 +89,7 @@ public class AuthBusiness {
      *
      * @param email;
      */
+    @Transactional(rollbackFor = ApplicationException.class)
     public void forgotPassword(String email) {
         User user = userGateway.findByEmail(email);
 
