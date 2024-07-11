@@ -34,6 +34,10 @@ public class UserProjections {
         UUID getId();
     }
 
+    public interface Type {
+        String getType();
+    }
+
     public interface FirstName {
         String getFirstName();
     }
