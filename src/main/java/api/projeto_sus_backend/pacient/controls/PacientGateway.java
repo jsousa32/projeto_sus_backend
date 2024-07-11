@@ -30,8 +30,8 @@ public class PacientGateway {
         });
     }
 
-    public void save(Pacient pacient) {
-        pacientRepository.save(PacientMapper.convert(pacient));
+    public Pacient save(Pacient pacient) {
+        return PacientMapper.convert(pacientRepository.save(PacientMapper.convert(pacient)));
     }
 
     public void save(User user) {
