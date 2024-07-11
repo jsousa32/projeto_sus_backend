@@ -13,4 +13,8 @@ public class JwtHelper {
     public static boolean isAdministrator(JwtAuthenticationToken token) {
         return token.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
+
+    public static String getUserEmail(JwtAuthenticationToken token) {
+        return token.getName();
+    }
 }

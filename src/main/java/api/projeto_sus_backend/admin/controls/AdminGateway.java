@@ -1,6 +1,8 @@
 package api.projeto_sus_backend.admin.controls;
 
 import api.projeto_sus_backend.admin.entities.Admin;
+import api.projeto_sus_backend.user.entities.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,14 @@ public class AdminGateway {
 
     public void save(Admin admin) {
         adminRepository.save(AdminMapper.convert(admin));
+    }
+
+    public void save(User user) {
+        Admin admin = this.findById(user.getId());
+
+        BeanUtils.copyProperties(user, admin, "id");
+
+        this.save(admin);
     }
 
     public void existsByDocument(String document) {

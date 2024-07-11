@@ -1,6 +1,8 @@
 package api.projeto_sus_backend.pacient.controls;
 
 import api.projeto_sus_backend.pacient.entities.Pacient;
+import api.projeto_sus_backend.user.entities.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -30,6 +32,14 @@ public class PacientGateway {
 
     public void save(Pacient pacient) {
         pacientRepository.save(PacientMapper.convert(pacient));
+    }
+
+    public void save(User user) {
+        Pacient pacient = this.findById(user.getId());
+
+        BeanUtils.copyProperties(user, pacient, "id", "susNumber");
+
+        this.save(pacient);
     }
 
     public Page<Pacient> findAll(String filter, Pageable pageable) {
