@@ -16,4 +16,16 @@ public class ForgotPasswordExceptions {
             super("Não foi possível encontrar usuário vinculado a essa redefinição de senha", HttpStatus.NOT_FOUND);
         }
     }
+
+    public static class UserIdInvalid extends ApplicationException {
+        public UserIdInvalid() {
+            super("O usuário vinculado está inválido", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public static class UrlExpired extends ApplicationException {
+        public UrlExpired() {
+            super("A url para redefinição de senha está expirada", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
