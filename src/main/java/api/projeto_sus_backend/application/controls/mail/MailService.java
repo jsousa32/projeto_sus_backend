@@ -65,8 +65,7 @@ public class MailService {
 
         String url = frontendUrlApplication
                 .concat("reset?forgotId=" + CryptographyUtils.encrypt(forgotPassword.getId().toString(), modelCustomConfiguration.getSecret()))
-                .concat("&userId" + CryptographyUtils.encrypt(forgotPassword.getUserId().toString(), modelCustomConfiguration.getSecret()))
-                .concat("&expiresAt" + forgotPassword.getExpiresAt());
+                .concat("&userId=" + CryptographyUtils.encrypt(forgotPassword.getUserId().toString(), modelCustomConfiguration.getSecret()));
 
         Map<String, Object> params = new HashMap<>();
         params.put("url", url);
