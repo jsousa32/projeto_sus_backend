@@ -35,6 +35,9 @@ public class UserSchema extends GenericSchema {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(updatable = false, insertable = false)
+    private String type;
+
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
@@ -72,6 +75,14 @@ public class UserSchema extends GenericSchema {
 
     protected void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getFirstName() {

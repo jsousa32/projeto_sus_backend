@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -29,6 +28,10 @@ public class User extends Generic {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonView(UserProjections.Id.class)
     private UUID id;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(UserProjections.Type.class)
+    private String type;
 
     @NotBlank(message = "Nome é obrigatório", groups = UserProjections.FirstName.class)
     @JsonView(UserProjections.FirstName.class)
@@ -68,7 +71,7 @@ public class User extends Generic {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonView(UserProjections.CodeEmailConfirmation.class)
-    private final String codeEmailConfirmation = RandomStringUtils.random(6, false, true);
+    private String codeEmailConfirmation = RandomStringUtils.random(6, false, true);
 
     public UUID getId() {
         return id;
@@ -76,6 +79,14 @@ public class User extends Generic {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getFirstName() {
@@ -146,6 +157,10 @@ public class User extends Generic {
         return codeEmailConfirmation;
     }
 
+    public void setCodeEmailConfirmation(String codeEmailConfirmation) {
+        this.codeEmailConfirmation = codeEmailConfirmation;
+    }
+
     /**
      * The Builder of User
      */
@@ -159,6 +174,11 @@ public class User extends Generic {
 
         public Builder setId(UUID id) {
             this.user.setId(id);
+            return this;
+        }
+
+        public Builder setType(String type) {
+            this.user.setType(type);
             return this;
         }
 
@@ -203,7 +223,7 @@ public class User extends Generic {
         }
 
         public Builder setCodeEmailConfirmation(String codeEmailConfirmation) {
-            this.setCodeEmailConfirmation(codeEmailConfirmation);
+            this.user.setCodeEmailConfirmation(codeEmailConfirmation);
             return this;
         }
 

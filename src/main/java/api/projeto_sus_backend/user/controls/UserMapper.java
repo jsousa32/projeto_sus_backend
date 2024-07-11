@@ -14,6 +14,7 @@ public class UserMapper {
     public static User convert(UserSchema userSchema) {
         return new User.Builder().builder()
                 .setId(userSchema.getId())
+                .setType(userSchema.getType())
                 .setFirstName(userSchema.getFirstName())
                 .setLastName(userSchema.getLastName())
                 .setEmail(userSchema.getEmail())
@@ -21,6 +22,8 @@ public class UserMapper {
                 .setTelephone(userSchema.getTelephone())
                 .setPassword(userSchema.getPassword())
                 .setPermissions(userSchema.getPermissions())
+                .setCodeEmailConfirmation(userSchema.getCodeEmailConfirmation())
+                .setEmailConfirmed(userSchema.isEmailConfirmed())
                 .build();
     }
 }
