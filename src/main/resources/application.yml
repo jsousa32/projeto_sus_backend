@@ -33,3 +33,4 @@ jwt:
 
 custom:
   frontendUrlApplication: http://localhost:/4200/
+  secret: r|(ewXwsn=X-(1}
