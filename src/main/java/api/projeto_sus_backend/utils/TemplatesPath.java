@@ -10,10 +10,10 @@ public class TemplatesPath {
 
     public static class AUTH {
 
-        public static final String EMAIL_CONFIRMATION = "auth/email-confirmation";
+        public static final String EMAIL_CONFIRMATION = "auth/email-confirmation/body.ftl";
 
-        public static final String FORGOT_PASSWORD = "auth/forgot-password";
+        public static final String FORGOT_PASSWORD = "auth/forgot-password/body.ftl";
 
-        public static final String REGISTER_PASSWORD = "auth/register-password";
+        public static final String REGISTER_PASSWORD = "auth/register-password/body.ftl";
     }
 }
