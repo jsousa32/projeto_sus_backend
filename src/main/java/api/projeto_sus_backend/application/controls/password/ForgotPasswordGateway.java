@@ -2,7 +2,6 @@ package api.projeto_sus_backend.application.controls.password;
 
 import api.projeto_sus_backend.application.controls.ApplicationMapper;
 import api.projeto_sus_backend.application.entities.ForgotPassword;
-import api.projeto_sus_backend.application.entities.ForgotPasswordSchema;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -30,8 +29,8 @@ public class ForgotPasswordGateway {
         return ApplicationMapper.convert(forgotPasswordRepository.save(ApplicationMapper.convert(forgotPassword)));
     }
 
-    public ForgotPassword findByUserId(UUID userId) {
-        return forgotPasswordRepository.findByUserId(userId).map(ApplicationMapper::convert)
+    public ForgotPassword findById(UUID id) {
+        return forgotPasswordRepository.findById(id).map(ApplicationMapper::convert)
                 .orElseThrow(ForgotPasswordExceptions.ForgotPasswordByUserIdNotFound::new);
     }
 }
