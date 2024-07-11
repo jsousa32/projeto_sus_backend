@@ -1,6 +1,7 @@
 package api.projeto_sus_backend.application.configurations;
 
 import api.projeto_sus_backend.application.entities.ModelCustomConfiguration;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,5 +19,10 @@ public class CustomConfiguration {
     @ConfigurationProperties(prefix = "custom")
     public ModelCustomConfiguration configuration() {
         return new ModelCustomConfiguration();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }
