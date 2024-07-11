@@ -8,6 +8,8 @@ import api.projeto_sus_backend.user.entities.User;
 import api.projeto_sus_backend.user.entities.UserSchema;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * The Class UserGateway
  *
@@ -65,5 +67,9 @@ public class UserGateway {
             default:
                 throw new AuthExceptions.UserTypeIsNotCorrect();
         }
+    }
+
+    public User findById(UUID id) {
+        return userRepository.findById(id).map(UserMapper::convert).orElseThrow(UserExceptions.NotFound::new);
     }
 }
