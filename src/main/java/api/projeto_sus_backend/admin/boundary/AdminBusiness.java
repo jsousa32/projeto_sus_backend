@@ -3,6 +3,7 @@ package api.projeto_sus_backend.admin.boundary;
 import api.projeto_sus_backend.admin.controls.AdminExceptions;
 import api.projeto_sus_backend.admin.controls.AdminGateway;
 import api.projeto_sus_backend.admin.entities.Admin;
+import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.controls.mail.MailService;
 import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.enums.Permissions;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +44,7 @@ public class AdminBusiness {
      *
      * @param admin;
      */
+    @Transactional(rollbackFor = ApplicationException.class)
     public void save(Admin admin) {
 
         userGateway.existsByEmail(admin.getEmail());

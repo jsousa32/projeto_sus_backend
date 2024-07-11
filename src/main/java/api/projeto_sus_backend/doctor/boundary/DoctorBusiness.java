@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.doctor.boundary;
 
+import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.controls.mail.MailService;
 import api.projeto_sus_backend.doctor.controls.DoctorGateway;
 import api.projeto_sus_backend.doctor.entities.Doctor;
@@ -9,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -40,6 +42,7 @@ public class DoctorBusiness {
      *
      * @param doctor;
      */
+    @Transactional(rollbackFor = ApplicationException.class)
     public void save(Doctor doctor) {
 
         doctorGateway.existsByCrm(doctor.getCrm());

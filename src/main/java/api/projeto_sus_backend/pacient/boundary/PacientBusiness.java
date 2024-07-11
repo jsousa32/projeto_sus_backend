@@ -1,5 +1,6 @@
 package api.projeto_sus_backend.pacient.boundary;
 
+import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.controls.mail.MailService;
 import api.projeto_sus_backend.pacient.controls.PacientGateway;
 import api.projeto_sus_backend.pacient.entities.Pacient;
@@ -9,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -39,6 +41,7 @@ public class PacientBusiness {
      *
      * @param pacient;
      */
+    @Transactional(rollbackFor = ApplicationException.class)
     public void save(Pacient pacient) {
 
         pacientGateway.existsBySusNumber(pacient.getSusNumber());
