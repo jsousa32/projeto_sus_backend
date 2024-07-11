@@ -74,7 +74,7 @@ public class AppointmentBusiness {
 
         appointment.setDoctor(doctorGateway.findById(doctorId));
 
-        appointment = appointmentGateway.saveAndReturn(appointment);
+        appointment = appointmentGateway.save(appointment);
 
         pacient.getAppointments().add(appointment);
 

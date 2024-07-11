@@ -21,11 +21,7 @@ public class ForgotPasswordGateway {
         this.forgotPasswordRepository = forgotPasswordRepository;
     }
 
-    public void save(ForgotPassword forgotPassword) {
-        forgotPasswordRepository.save(ApplicationMapper.convert(forgotPassword));
-    }
-
-    public ForgotPassword saveAndReturn(ForgotPassword forgotPassword) {
+    public ForgotPassword save(ForgotPassword forgotPassword) {
         return ApplicationMapper.convert(forgotPasswordRepository.save(ApplicationMapper.convert(forgotPassword)));
     }
 
