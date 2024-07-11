@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public class DoctorController {
     @Operation(summary = "Endpoint responsável por criar um novo médico")
     @PostMapping
     @JsonView(DoctorProjections.Create.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> save(@Validated(DoctorProjections.Create.class) @RequestBody Doctor doctor) {
 
         doctorBusiness.save(doctor);
@@ -113,6 +115,7 @@ public class DoctorController {
     @Operation(summary = "Endpoint responsável por editar um médico")
     @PatchMapping
     @JsonView(DoctorProjections.EditablesFields.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
             @Validated(DoctorProjections.EditablesFields.class) @RequestBody Doctor doctor
@@ -130,6 +133,7 @@ public class DoctorController {
      */
     @Operation(summary = "Endpoint responsável por reativar um médico")
     @PatchMapping("active")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> active(@RequestParam(name = "id") UUID id) {
 
         doctorBusiness.active(id);
@@ -145,6 +149,7 @@ public class DoctorController {
      */
     @Operation(summary = "Endpoint responsável por desativar um paciente")
     @DeleteMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> disable(@RequestParam(name = "id") UUID id) {
 
         doctorBusiness.disable(id);

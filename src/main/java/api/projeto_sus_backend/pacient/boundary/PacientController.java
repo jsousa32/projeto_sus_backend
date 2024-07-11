@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +62,7 @@ public class PacientController {
     @Operation(summary = "Endpoint responsável por buscar todos os pacientes paginados")
     @GetMapping("all")
     @JsonView(PacientProjections.Page.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Page<Pacient>> findAll(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
@@ -82,6 +84,7 @@ public class PacientController {
     @Operation(summary = "Endpoint responsável por buscar todos os pacientes não paginados")
     @GetMapping("unpaged")
     @JsonView(PacientProjections.Page.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_DOCTOR')")
     public ResponseEntity<Page<Pacient>> findAllUnpaged(
             @RequestParam(name = "filter", required = false, defaultValue = "") String filter
     ) {
@@ -133,6 +136,7 @@ public class PacientController {
      */
     @Operation(summary = "Endpoint responsável por reativar um paciente")
     @PatchMapping("active")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> active(@RequestParam(value = "id") UUID id) {
 
         pacientBusiness.active(id);
@@ -148,6 +152,7 @@ public class PacientController {
      */
     @Operation(summary = "Endpoint responsável por desativar um paciente")
     @DeleteMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> disable(@RequestParam(value = "id") UUID id) {
 
         pacientBusiness.disable(id);

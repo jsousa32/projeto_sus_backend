@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,7 @@ public class AdminController {
     @Operation(summary = "Endpoint responsável pela criação de um administrador")
     @PostMapping
     @JsonView(AdminProjections.Create.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> save(@Validated(AdminProjections.Create.class) @RequestBody Admin admin) {
 
         adminBusiness.save(admin);
@@ -59,6 +61,7 @@ public class AdminController {
     @Operation(summary = "Endpoint responsável pela busca de todos os administradores do sistema")
     @GetMapping("all")
     @JsonView(AdminProjections.Page.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<Admin>> findAll(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
@@ -79,6 +82,7 @@ public class AdminController {
     @Operation(summary = "Endpoint responsável pela busca de um administrador")
     @GetMapping
     @JsonView(AdminProjections.Resume.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Admin> findById(@RequestParam(name = "id") UUID id) {
         Admin response = adminBusiness.findById(id);
 
@@ -96,6 +100,7 @@ public class AdminController {
     @Operation(summary = "Endpoint responsável pela atualização de um administrador")
     @PatchMapping
     @JsonView(AdminProjections.EditablesFields.class)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(
             @RequestParam(name = "id") UUID id,
             @Validated(AdminProjections.EditablesFields.class) @RequestBody Admin admin
@@ -113,6 +118,7 @@ public class AdminController {
      */
     @Operation(summary = "Endpoint responsável pela deleção de um administrador")
     @DeleteMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@RequestParam(name = "id") UUID id) {
         adminBusiness.delete(id);
 
