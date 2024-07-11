@@ -92,7 +92,7 @@ public class AuthBusiness {
 
         ForgotPassword forgotPassword = new ForgotPassword(user.getId());
 
-        forgotPassword = forgotPasswordGateway.saveAndReturn(forgotPassword);
+        forgotPassword = forgotPasswordGateway.save(forgotPassword);
 
         mailService.forgotPassword(user, forgotPassword);
     }
