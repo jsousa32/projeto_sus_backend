@@ -69,6 +69,7 @@ public class SecurityConfiguration {
                         h
                                 .requestMatchers(HttpMethod.POST, "/v1/auth").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/v1/auth/forgot").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/v1/auth/reset").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/v1/pacients").permitAll()
                                 .anyRequest().authenticated()
                 )
