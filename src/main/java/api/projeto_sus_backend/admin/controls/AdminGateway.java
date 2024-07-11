@@ -24,8 +24,8 @@ public class AdminGateway {
         this.adminRepository = adminRepository;
     }
 
-    public void save(Admin admin) {
-        adminRepository.save(AdminMapper.convert(admin));
+    public Admin save(Admin admin) {
+        return AdminMapper.convert(adminRepository.save(AdminMapper.convert(admin)));
     }
 
     public void save(User user) {
