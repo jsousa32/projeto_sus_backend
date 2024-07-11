@@ -1,6 +1,9 @@
 package api.projeto_sus_backend.application.boundary;
 
+import api.projeto_sus_backend.application.controls.mail.MailService;
+import api.projeto_sus_backend.application.controls.password.ForgotPasswordGateway;
 import api.projeto_sus_backend.application.entities.AuthResponse;
+import api.projeto_sus_backend.application.entities.ForgotPassword;
 import api.projeto_sus_backend.user.controls.UserExceptions;
 import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.User;
@@ -21,11 +24,21 @@ import java.util.Objects;
 public class AuthBusiness {
 
     private final JwtService jwtService;
+
     private final UserGateway userGateway;
 
-    public AuthBusiness(JwtService jwtService, UserGateway userGateway) {
+    private final ForgotPasswordGateway forgotPasswordGateway;
+
+    private final MailService mailService;
+
+    public AuthBusiness(JwtService jwtService,
+                        UserGateway userGateway,
+                        ForgotPasswordGateway forgotPasswordGateway,
+                        MailService mailService) {
         this.jwtService = jwtService;
         this.userGateway = userGateway;
+        this.forgotPasswordGateway = forgotPasswordGateway;
+        this.mailService = mailService;
     }
 
     /**
@@ -59,5 +72,20 @@ public class AuthBusiness {
         user.setEmailConfirmed(true);
 
         userGateway.save(user);
+    }
+
+    /**
+     * Metodo responsável por realizar o envio de email para recuperação da senha
+     *
+     * @param email;
+     */
+    public void forgotPassword(String email) {
+        User user = userGateway.findByEmail(email);
+
+        ForgotPassword forgotPassword = new ForgotPassword(user.getId());
+
+        forgotPassword = forgotPasswordGateway.saveAndReturn(forgotPassword);
+
+        mailService.forgotPassword(user, forgotPassword);
     }
 }

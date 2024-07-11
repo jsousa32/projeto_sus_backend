@@ -29,3 +29,7 @@ jwt:
     key: classpath:app.pub
   private:
     key: classpath:app.key
+
+
+custom:
+  frontendUrlApplication: http://localhost:/4200/

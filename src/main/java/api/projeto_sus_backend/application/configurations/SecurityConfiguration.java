@@ -68,6 +68,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(h ->
                         h
                                 .requestMatchers(HttpMethod.POST, "/v1/auth").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/v1/auth/forgot").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/v1/pacients").permitAll()
                                 .anyRequest().authenticated()
                 )

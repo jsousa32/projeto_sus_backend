@@ -53,9 +53,25 @@ public class AuthController {
     @PostMapping("email-confirmation")
     public ResponseEntity<Void> emailConfirmation(
             JwtAuthenticationToken authenticationToken,
-            @RequestParam("codeEmailConfirmation") String codeEmailConfirmation
+            @RequestParam(name = "codeEmailConfirmation") String codeEmailConfirmation
     ) {
         authBusiness.emailConfirmation(authenticationToken, codeEmailConfirmation);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    /**
+     * Endpoint responsável por realizar a recuperação de senha do usuário
+     *
+     * @param email;
+     * @return ResponseEntity<Void>;
+     */
+    @Operation(summary = "Endpoint responsável por realizar a recuperação de senha do usuário")
+    @PostMapping("forgot")
+    public ResponseEntity<Void> forgotPassword(
+            @RequestParam(name = "email") String email
+    ) {
+        authBusiness.forgotPassword(email);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
