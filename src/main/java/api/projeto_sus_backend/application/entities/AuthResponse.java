@@ -1,6 +1,10 @@
 package api.projeto_sus_backend.application.entities;
 
+import api.projeto_sus_backend.user.entities.enums.Permissions;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Class AccessTokenResponse
@@ -16,6 +20,8 @@ public class AuthResponse {
 
     private String name;
 
+    private final List<Permissions> permissions = new ArrayList<>();
+
     private LocalDateTime createdAt;
 
     private LocalDateTime expiresAt;
@@ -30,6 +36,10 @@ public class AuthResponse {
 
     public String getName() {
         return name;
+    }
+
+    public List<Permissions> getPermissions() {
+        return permissions;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -64,6 +74,11 @@ public class AuthResponse {
 
         public Builder name(String name) {
             this.authResponse.name = name;
+            return this;
+        }
+
+        public Builder setPermissions(List<Permissions> permissions) {
+            this.authResponse.permissions.addAll(permissions);
             return this;
         }
 

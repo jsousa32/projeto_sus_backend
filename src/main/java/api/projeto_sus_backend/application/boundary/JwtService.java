@@ -41,13 +41,13 @@ public class JwtService {
         Instant createdAt = Instant.now();
         Instant expiresAt = LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
 
-        String authorities = authentication
+        String permissions = authentication
                 .getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", "));
 
         JwtClaimsSet claims = JwtClaimsSet.builder().issuer(ISSUER).issuedAt(createdAt).expiresAt(expiresAt).subject(authentication.getName())
-                .claim("authorities", authorities).build();
+                .claim("permissions", permissions).build();
 
         String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
@@ -66,6 +66,7 @@ public class JwtService {
         LocalDateTime expiresAt = createdAt.plusHours(3);
 
         return new AuthResponse.Builder().builder().accessToken(token).name(principal.getName())
+                .setPermissions(principal.getPermissions())
                 .emailConfirmed(principal.isEmailConfirmed()).createdAt(createdAt).expiresAt(expiresAt).build();
     }
 }

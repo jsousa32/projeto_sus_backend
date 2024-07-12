@@ -20,7 +20,7 @@ public class CustomAuthenticationConverter implements Converter<Jwt, AbstractAut
 
     @Override
     public AbstractAuthenticationToken convert(Jwt source) {
-        String roles = source.getClaim("authorities");
+        String roles = source.getClaim("permissions");
 
         if(Objects.isNull(roles) || roles.isBlank()) {
             return new JwtAuthenticationToken(source);
