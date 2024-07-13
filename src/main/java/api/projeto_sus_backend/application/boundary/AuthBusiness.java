@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -96,9 +95,9 @@ public class AuthBusiness {
      * @param password
      */
     public void resetPassword(String encryptedUserId, String password) {
-        String decrypt = CryptographyUtils.decrypt(encryptedUserId, modelCustomConfiguration.getSecret());
+        String decryptUserId = CryptographyUtils.decrypt(encryptedUserId, modelCustomConfiguration.getSecret());
 
-        UUID userId = UUID.fromString(decrypt);
+        UUID userId = UUID.fromString(decryptUserId);
 
         User user = userGateway.findById(userId);
 
