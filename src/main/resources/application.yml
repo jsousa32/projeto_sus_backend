@@ -32,5 +32,5 @@ jwt:
 
 
 custom:
-  frontendUrlApplication: http://localhost:/4200/
+  frontendUrlApplication: http://localhost:4200/
   secret: TjIzy9jiNDazGjjldHxUfvEoka4g4KOv
