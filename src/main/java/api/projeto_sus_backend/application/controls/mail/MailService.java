@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,9 +64,12 @@ public class MailService {
     public void forgotPassword(User user) {
         String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
 
+        String userId = CryptographyUtils.encrypt(user.getId().toString(), modelCustomConfiguration.getSecret());
+        String expiresAt = CryptographyUtils.encrypt(LocalDateTime.now().plusHours(2).toString(), modelCustomConfiguration.getSecret());
+
         String url = frontendUrlApplication
-                .concat("reset?userId=" + CryptographyUtils.encrypt(user.getId().toString(), modelCustomConfiguration.getSecret()))
-                .concat("&expiresAt=" + CryptographyUtils.encrypt(LocalDateTime.now().toString(), modelCustomConfiguration.getSecret()));
+                .concat("reset/" + Base64.getUrlEncoder().encodeToString(userId.getBytes()))
+                .concat("/" + Base64.getUrlEncoder().encodeToString(expiresAt.getBytes()));
 
         Map<String, Object> params = new HashMap<>();
         params.put("url", url);
