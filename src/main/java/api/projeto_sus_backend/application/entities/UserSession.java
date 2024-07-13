@@ -12,7 +12,7 @@ import java.util.List;
  * @author João Lucas Silva de Sousa
  * @sincer 04/07/2024
  */
-public class AuthResponse {
+public class UserSession {
 
     private String accessToken;
 
@@ -55,45 +55,45 @@ public class AuthResponse {
      * The Builder of AccessTokenResponse
      */
     public static class Builder {
-        private AuthResponse authResponse;
+        private UserSession userSession;
 
         public Builder builder() {
-            this.authResponse = new AuthResponse();
+            this.userSession = new UserSession();
             return this;
         }
 
         public Builder accessToken(String accessToken) {
-            this.authResponse.accessToken = accessToken;
+            this.userSession.accessToken = accessToken;
             return this;
         }
 
         public Builder emailConfirmed(boolean emailConfirmed) {
-            this.authResponse.emailConfirmed = emailConfirmed;
+            this.userSession.emailConfirmed = emailConfirmed;
             return this;
         }
 
         public Builder name(String name) {
-            this.authResponse.name = name;
+            this.userSession.name = name;
             return this;
         }
 
         public Builder setPermissions(List<Permissions> permissions) {
-            this.authResponse.permissions.addAll(permissions);
+            this.userSession.permissions.addAll(permissions);
             return this;
         }
 
         public Builder createdAt(LocalDateTime createdAt) {
-            this.authResponse.createdAt = createdAt;
+            this.userSession.createdAt = createdAt;
             return this;
         }
 
         public Builder expiresAt(LocalDateTime expiresAt) {
-            this.authResponse.expiresAt = expiresAt;
+            this.userSession.expiresAt = expiresAt;
             return this;
         }
 
-        public AuthResponse build() {
-            return this.authResponse;
+        public UserSession build() {
+            return this.userSession;
         }
     }
 }

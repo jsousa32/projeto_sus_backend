@@ -2,7 +2,7 @@ package api.projeto_sus_backend.application.boundary;
 
 import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.controls.mail.MailService;
-import api.projeto_sus_backend.application.entities.AuthResponse;
+import api.projeto_sus_backend.application.entities.UserSession;
 import api.projeto_sus_backend.application.entities.ModelCustomConfiguration;
 import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.User;
@@ -48,7 +48,7 @@ public class AuthBusiness {
      *
      * @return AccessTokenResponse;
      */
-    public AuthResponse login(Authentication authentication) {
+    public UserSession login(Authentication authentication) {
         return jwtService.generateToken(authentication);
     }
 

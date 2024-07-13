@@ -1,6 +1,6 @@
 package api.projeto_sus_backend.application.boundary;
 
-import api.projeto_sus_backend.application.entities.AuthResponse;
+import api.projeto_sus_backend.application.entities.UserSession;
 import api.projeto_sus_backend.application.entities.PrincipalDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +37,7 @@ public class JwtService {
      * @param authentication;
      * @return AccessTokenResponse;
      */
-    public AuthResponse generateToken(Authentication authentication) {
+    public UserSession generateToken(Authentication authentication) {
         Instant createdAt = Instant.now();
         Instant expiresAt = LocalDateTime.now().plusHours(3).toInstant(ZoneOffset.of("-03:00"));
 
@@ -61,11 +61,11 @@ public class JwtService {
      * @param principal;
      * @return AccessTokenResponse;
      */
-    private AuthResponse generateResponse(String token, PrincipalDetails principal) {
+    private UserSession generateResponse(String token, PrincipalDetails principal) {
         LocalDateTime createdAt = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
         LocalDateTime expiresAt = createdAt.plusHours(3);
 
-        return new AuthResponse.Builder().builder().accessToken(token).name(principal.getName())
+        return new UserSession.Builder().builder().accessToken(token).name(principal.getName())
                 .setPermissions(principal.getPermissions())
                 .emailConfirmed(principal.isEmailConfirmed()).createdAt(createdAt).expiresAt(expiresAt).build();
     }

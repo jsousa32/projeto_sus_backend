@@ -1,6 +1,6 @@
 package api.projeto_sus_backend.application.boundary;
 
-import api.projeto_sus_backend.application.entities.AuthResponse;
+import api.projeto_sus_backend.application.entities.UserSession;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
 
 /**
  * The Class AuthController
@@ -38,8 +36,8 @@ public class AuthController {
      */
     @Operation(summary = "Endpoint responsável por realizar o login do usuário")
     @PostMapping
-    public ResponseEntity<AuthResponse> login(Authentication authentication) {
-        AuthResponse response = authBusiness.login(authentication);
+    public ResponseEntity<UserSession> login(Authentication authentication) {
+        UserSession response = authBusiness.login(authentication);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
