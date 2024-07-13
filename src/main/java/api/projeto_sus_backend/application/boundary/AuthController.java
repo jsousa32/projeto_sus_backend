@@ -81,11 +81,10 @@ public class AuthController {
     @Operation(summary = "Endpoint responsável por realizar o resete da senha do usuário")
     @PostMapping("reset")
     public ResponseEntity<Void> resetPassword(
-            @RequestParam(name = "forgotId") UUID token,
-            @RequestParam(name = "userId") UUID userId,
+            @RequestParam(name = "userId") String encryptedUserId,
             @RequestParam(name = "password") String password
     ) {
-        authBusiness.resetPassword(token, userId, password);
+        authBusiness.resetPassword(encryptedUserId, password);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -2,10 +2,7 @@ package api.projeto_sus_backend.application.boundary;
 
 import api.projeto_sus_backend.application.controls.ApplicationException;
 import api.projeto_sus_backend.application.controls.mail.MailService;
-import api.projeto_sus_backend.application.controls.password.ForgotPasswordExceptions;
-import api.projeto_sus_backend.application.controls.password.ForgotPasswordGateway;
 import api.projeto_sus_backend.application.entities.AuthResponse;
-import api.projeto_sus_backend.application.entities.ForgotPassword;
 import api.projeto_sus_backend.application.entities.ModelCustomConfiguration;
 import api.projeto_sus_backend.user.controls.UserGateway;
 import api.projeto_sus_backend.user.entities.User;
@@ -33,20 +30,16 @@ public class AuthBusiness {
 
     private final UserGateway userGateway;
 
-    private final ForgotPasswordGateway forgotPasswordGateway;
-
     private final MailService mailService;
 
     private final ModelCustomConfiguration modelCustomConfiguration;
 
     public AuthBusiness(JwtService jwtService,
                         UserGateway userGateway,
-                        ForgotPasswordGateway forgotPasswordGateway,
                         MailService mailService,
                         ModelCustomConfiguration modelCustomConfiguration) {
         this.jwtService = jwtService;
         this.userGateway = userGateway;
-        this.forgotPasswordGateway = forgotPasswordGateway;
         this.mailService = mailService;
         this.modelCustomConfiguration = modelCustomConfiguration;
     }
@@ -93,30 +86,19 @@ public class AuthBusiness {
     public void forgotPassword(String email) {
         User user = userGateway.findByEmail(email);
 
-        ForgotPassword forgotPassword = new ForgotPassword(user.getId());
-
-        forgotPassword = forgotPasswordGateway.save(forgotPassword);
-
-        mailService.forgotPassword(user, forgotPassword);
+        mailService.forgotPassword(user);
     }
 
     /**
      * Metodo responsável por realizar o resete da senha do usuário
      *
-     * @param forgotId;
-     * @param userId;
+     * @param encryptedUserId;
      * @param password
      */
-    public void resetPassword(UUID forgotId, UUID userId, String password) {
-        ForgotPassword forgotPassword = forgotPasswordGateway.findById(forgotId);
+    public void resetPassword(String encryptedUserId, String password) {
+        String decrypt = CryptographyUtils.decrypt(encryptedUserId, modelCustomConfiguration.getSecret());
 
-        if (!Objects.equals(forgotPassword.getUserId(), userId)) {
-            throw new ForgotPasswordExceptions.UserIdInvalid();
-        }
-
-        if(forgotPassword.getExpiresAt().isAfter(LocalDateTime.now())) {
-            throw new ForgotPasswordExceptions.UrlExpired();
-        }
+        UUID userId = UUID.fromString(decrypt);
 
         User user = userGateway.findById(userId);
 

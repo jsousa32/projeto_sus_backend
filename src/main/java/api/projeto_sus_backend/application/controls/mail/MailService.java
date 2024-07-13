@@ -1,6 +1,5 @@
 package api.projeto_sus_backend.application.controls.mail;
 
-import api.projeto_sus_backend.application.entities.ForgotPassword;
 import api.projeto_sus_backend.application.entities.ModelCustomConfiguration;
 import api.projeto_sus_backend.user.entities.User;
 import api.projeto_sus_backend.utils.CryptographyUtils;
@@ -9,6 +8,7 @@ import freemarker.template.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,12 +60,12 @@ public class MailService {
         this.builder().to(user.getEmail()).subject("Cadastrar Senha").send(TemplatesPath.AUTH.REGISTER_PASSWORD, params);
     }
 
-    public void forgotPassword(User user, ForgotPassword forgotPassword) {
+    public void forgotPassword(User user) {
         String frontendUrlApplication = modelCustomConfiguration.getFrontendUrlApplication();
 
         String url = frontendUrlApplication
-                .concat("reset?forgotId=" + CryptographyUtils.encrypt(forgotPassword.getId().toString(), modelCustomConfiguration.getSecret()))
-                .concat("&userId=" + CryptographyUtils.encrypt(forgotPassword.getUserId().toString(), modelCustomConfiguration.getSecret()));
+                .concat("reset?userId=" + CryptographyUtils.encrypt(user.getId().toString(), modelCustomConfiguration.getSecret()))
+                .concat("&expiresAt=" + CryptographyUtils.encrypt(LocalDateTime.now().toString(), modelCustomConfiguration.getSecret()));
 
         Map<String, Object> params = new HashMap<>();
         params.put("url", url);
