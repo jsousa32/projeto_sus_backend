@@ -20,6 +20,7 @@ public class AdminMapper {
                 .setDocument(admin.getDocument())
                 .setPassword(admin.getPassword())
                 .setPermissions(admin.getPermissions())
+                .setTelephone(admin.getTelephone())
                 .setCodeEmailConfirmation(admin.getCodeEmailConfirmation())
                 .setEmailConfirmed(admin.isEmailConfirmed())
                 .build();
@@ -34,6 +35,7 @@ public class AdminMapper {
                 .setDocument(adminSchema.getDocument())
                 .setPassword(adminSchema.getPassword())
                 .setPermissions(adminSchema.getPermissions())
+                .setTelephone(adminSchema.getTelephone())
                 .setCodeEmailConfirmation(adminSchema.getCodeEmailConfirmation())
                 .setEmailConfirmed(adminSchema.isEmailConfirmed())
                 .build();
