@@ -28,6 +28,8 @@ public class PacientProjections {
     public interface Create extends UserProjections.Create {
     }
 
+    public interface CreateInternal extends UserProjections.CreateWithoutPassword {}
+
     public interface EditablesFields extends UserProjections.EditablesFields {
     }
 
