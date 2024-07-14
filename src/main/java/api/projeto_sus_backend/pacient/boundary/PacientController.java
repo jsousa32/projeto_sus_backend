@@ -50,6 +50,17 @@ public class PacientController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Operation(summary = "Endpoint responsável por criar um novo paciente")
+    @PostMapping("internal")
+    @JsonView(PacientProjections.Create.class)
+    @PreAuthorize("hasRole('ADMIN') || hasRole('DOCTOR')")
+    public ResponseEntity<Void> saveInternal(@Validated(PacientProjections.CreateInternal.class) @RequestBody Pacient pacient) {
+
+        pacientBusiness.saveInternal(pacient);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
     /**
      * Endpoint responsável por buscar todos os pacientes paginados
      *

@@ -59,6 +59,28 @@ public class PacientBusiness {
         mailService.emailConfirmation(pacient);
     }
 
+
+    /**
+     * Metodo responsável por realizar a criação do paciente partindo de dentro do sistema
+     *
+     * @param pacient;
+     */
+    public void saveInternal(Pacient pacient) {
+        pacientGateway.existsBySusNumber(pacient.getSusNumber());
+
+        userGateway.existsByEmail(pacient.getEmail());
+
+        userGateway.existsByDocument(pacient.getDocument());
+
+        pacient.getPermissions().add(Permissions.PACIENT);
+
+        pacient = pacientGateway.save(pacient);
+
+        mailService.emailConfirmation(pacient);
+
+        mailService.registerPassword(pacient);
+    }
+
     /**
      * Metodo responsável por buscar todos os pacientes
      *
