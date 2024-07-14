@@ -21,7 +21,7 @@ public class CustomPageable extends PageRequest {
 
     public static Pageable getInstance(Integer page, Integer size, final String sorting) {
         page = Optional.ofNullable(page).orElse(0);
-        size = Optional.ofNullable(size).orElse(10);
+        size = Optional.ofNullable(size).orElse(5);
 
         if (Objects.isNull(sorting) || sorting.isBlank()) {
             return PageRequest.of(page, size);
