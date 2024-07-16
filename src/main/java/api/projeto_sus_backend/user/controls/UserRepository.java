@@ -5,7 +5,6 @@ import api.projeto_sus_backend.user.entities.UserSchema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +28,7 @@ public interface UserRepository<T extends UserSchema> extends JpaRepository<T, U
 
     @Query("""
             SELECT
-                u.id as id, u.firstName as firstName, u.lastName as lastName, u.emailConfirmed as emailConfirmed, u.disabled as disabled,
-                u.email as email, u.password as password, u.permissions as permissions
+                u
             FROM UserSchema u
             WHERE u.email = :email
             """)

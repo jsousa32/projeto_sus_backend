@@ -27,7 +27,7 @@ public interface DoctorRepository extends JpaRepository<DoctorSchema, UUID> {
 
     @Query("""
             SELECT
-                d.id as id, d.firstName as firstName, d.lastName as lastName, d.email as email, d.telephone as telephone, d.crm as crm
+                d
             FROM DoctorSchema d
             WHERE d.disabled = false
             AND (
@@ -42,8 +42,7 @@ public interface DoctorRepository extends JpaRepository<DoctorSchema, UUID> {
 
     @Query("""
             SELECT
-                d.id as id, d.firstName as firstName, d.lastName as lastName, d.email as email, d.telephone as telephone, d.crm as crm,
-                d.document as document
+                d
             FROM DoctorSchema d
             WHERE d.id = :id
             AND d.disabled = false

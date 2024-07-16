@@ -27,7 +27,7 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
 
     @Query("""
             SELECT
-                p.id as id, p.firstName as firstName, p.lastName as lastName, p.email as email, p.telephone as telephone, p.susNumber as susNumber 
+                p
             FROM PacientSchema p
             WHERE p.disabled = false
             AND (
@@ -42,8 +42,7 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
 
     @Query("""
             SELECT
-                p.id as id, p.firstName as firstName, p.lastName as lastName, p.email as email, p.telephone as telephone, p.susNumber as susNumber,
-                p.document as document, p.appointments as appointments
+                p
             FROM PacientSchema p
             WHERE p.id = :id
             AND p.disabled = false

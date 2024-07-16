@@ -32,7 +32,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentSchema, 
 
     @Query("""
             SELECT
-                a.id as id, a.date as date, a.hour as hour, a.doctor as doctor
+                a
             FROM AppointmentSchema a
             WHERE (
                 UPPER(a.doctor.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
@@ -43,7 +43,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentSchema, 
 
     @Query("""
             SELECT
-                a.id as id, a.date as date, a.hour as hour, a.doctor as doctor
+                a
             FROM AppointmentSchema a
             WHERE a.id = :id
             """)

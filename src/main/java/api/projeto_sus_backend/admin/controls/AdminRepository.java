@@ -1,6 +1,5 @@
 package api.projeto_sus_backend.admin.controls;
 
-import api.projeto_sus_backend.admin.entities.Admin;
 import api.projeto_sus_backend.admin.entities.AdminSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,14 +26,14 @@ public interface AdminRepository extends JpaRepository<AdminSchema, UUID> {
 
     @Query("""
             SELECT
-                a.id as id, a.firstName as firstName, a.lastName as lastName, a.email as email
+                a
             FROM AdminSchema a
             """)
     Page<AdminProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
 
     @Query("""
             SELECT
-                a.id as id, a.firstName as firstName, a.lastName as lastName, a.email as email
+                a
             FROM AdminSchema a
             """)
     Optional<AdminProjections.Page> findByIdResume(@Param("id") UUID id);
