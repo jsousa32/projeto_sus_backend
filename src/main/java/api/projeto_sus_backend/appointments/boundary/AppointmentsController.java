@@ -54,7 +54,7 @@ public class AppointmentsController {
             @RequestParam(name = "doctorId") UUID doctorId,
             @Valid @RequestBody Appointment appointment) {
 
-        appointmentBusiness.save(authenticationToken, doctorId, appointment);
+        appointmentBusiness.save(authenticationToken, pacientId, doctorId, appointment);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
