@@ -18,11 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The Class AppointmentBusiness
@@ -58,7 +56,7 @@ public class AppointmentBusiness {
     @Transactional(rollbackFor = ApplicationException.class)
     public void save(JwtAuthenticationToken authenticationToken, UUID pacientId, UUID doctorId, Appointment appointment) {
 
-        validationHourAndDateAppointment(appointment);
+        validationDateAppointment(appointment);
 
         Pacient pacient = pacientGateway.findById(pacientId);
 
@@ -68,7 +66,7 @@ public class AppointmentBusiness {
 
         int quantityAppointmentsPerHour = validationQuantityAppointmentPerHour(appointment, appointments);
 
-        if(quantityAppointmentsPerHour == 2 && !JwtHelper.isAdministrator(authenticationToken)) {
+        if (quantityAppointmentsPerHour == 2 && !JwtHelper.isAdministrator(authenticationToken)) {
             throw new AppointmentExceptions.HasntPermission();
         }
 
@@ -103,6 +101,52 @@ public class AppointmentBusiness {
         return appointmentGateway.findByIdResume(id);
     }
 
+    /**
+     * Metodo responsável por retornar os horários disponíveis do médico para cadastrar uma consulta
+     *
+     * @param authenticationToken;
+     * @param doctorId;
+     * @param dateAppointment;
+     * @return List<String>;
+     */
+    public List<String> avaliableTimes(JwtAuthenticationToken authenticationToken, UUID doctorId, LocalDate dateAppointment) {
+        List<Appointment> appointments = appointmentGateway.findByDoctorIdAndDate(doctorId, dateAppointment);
+
+        List<String> avaliableTimes = new ArrayList<>();
+
+        if (appointments.isEmpty()) {
+            for (int i = 8; i <= 19; i++) {
+                avaliableTimes.add(LocalTime.of(i, 0).toString());
+            }
+
+            return avaliableTimes;
+        }
+
+        boolean isAdministrator = JwtHelper.isAdministrator(authenticationToken);
+
+        Map<String, List<Appointment>> appointmentPerHour = appointments.stream().collect(Collectors.groupingBy(Appointment::getHour));
+
+        for (int i = 8; i <= 19; i++) {
+            String hour = LocalTime.of(i, 0).toString();
+
+            if (appointmentPerHour.containsKey(hour)) {
+
+                int quantityOfAppointments = appointmentPerHour.get(hour).size();
+
+                if (quantityOfAppointments == 2 && isAdministrator) {
+                    avaliableTimes.add(hour);
+                } else if (quantityOfAppointments < 2) {
+                    avaliableTimes.add(hour);
+                }
+            } else {
+                avaliableTimes.add(hour);
+            }
+
+        }
+
+        return avaliableTimes;
+    }
+
 
     /**
      * Metodo responsável por atualizar uma consulta
@@ -113,7 +157,7 @@ public class AppointmentBusiness {
      */
     public void update(JwtAuthenticationToken authenticationToken, UUID id, Appointment appointment) {
 
-        validationHourAndDateAppointment(appointment);
+        validationDateAppointment(appointment);
 
         Pacient pacient = pacientGateway.findByAppointmentId(id);
 
@@ -127,7 +171,7 @@ public class AppointmentBusiness {
 
         int quantityAppointmentsPerHour = validationQuantityAppointmentPerHour(appointment, appointments);
 
-        if(quantityAppointmentsPerHour == 2 && !JwtHelper.isAdministrator(authenticationToken)) {
+        if (quantityAppointmentsPerHour == 2 && !JwtHelper.isAdministrator(authenticationToken)) {
             throw new AppointmentExceptions.HasntPermission();
         }
 
@@ -197,14 +241,8 @@ public class AppointmentBusiness {
      *
      * @param appointment;
      */
-    private static void validationHourAndDateAppointment(Appointment appointment) {
+    private static void validationDateAppointment(Appointment appointment) {
         if (appointment.getDate().isBefore(LocalDate.now())) {
-            throw new AppointmentExceptions.InvalidHourAndDate();
-        }
-
-        LocalTime parsedHour = LocalTime.parse(appointment.getHour(), DateTimeFormatter.ofPattern("HH:mm"));
-
-        if (parsedHour.isBefore(LocalTime.now())) {
             throw new AppointmentExceptions.InvalidHourAndDate();
         }
     }

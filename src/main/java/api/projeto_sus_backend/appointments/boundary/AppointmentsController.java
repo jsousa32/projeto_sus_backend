@@ -3,6 +3,7 @@ package api.projeto_sus_backend.appointments.boundary;
 import api.projeto_sus_backend.appointments.controls.AppointmentProjections;
 import api.projeto_sus_backend.appointments.entities.Appointment;
 import api.projeto_sus_backend.utils.CustomPageable;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,9 +35,13 @@ public class AppointmentsController {
         this.appointmentBusiness = appointmentBusiness;
     }
 
+
     /**
      * Endpoint responsável por criar uma consulta
      *
+     * @param authenticationToken;
+     * @param pacientId;
+     * @param doctorId;
      * @param appointment;
      * @return ResponseEntity<Void>;
      */
@@ -47,7 +54,7 @@ public class AppointmentsController {
             @RequestParam(name = "doctorId") UUID doctorId,
             @Valid @RequestBody Appointment appointment) {
 
-        appointmentBusiness.save(authenticationToken, pacientId, doctorId, appointment);
+        appointmentBusiness.save(authenticationToken, doctorId, appointment);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -84,6 +91,26 @@ public class AppointmentsController {
     public ResponseEntity<Appointment> findById(@RequestParam("id") UUID id) {
 
         Appointment response = appointmentBusiness.findById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    /**
+     * Endpoint responsável por retornar os horários disponíveis do médico para cadastrar uma consulta
+     *
+     * @param authenticationToken;
+     * @param doctorId;
+     * @param dateAppointment;
+     * @return ResponseEntity<List < String>>;
+     */
+    @Operation(summary = "Endpoint responsável por retornar os horários disponíveis do médico para cadastrar uma consulta")
+    @GetMapping("avaliable-times")
+    public ResponseEntity<List<String>> avaliableTimes(
+            JwtAuthenticationToken authenticationToken,
+            @RequestParam("doctorId") UUID doctorId,
+            @RequestParam("dateAppointment") @JsonFormat(pattern = "dd/MM/yyyy") LocalDate dateAppointment
+    ) {
+        List<String> response = appointmentBusiness.avaliableTimes(authenticationToken, doctorId, dateAppointment);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

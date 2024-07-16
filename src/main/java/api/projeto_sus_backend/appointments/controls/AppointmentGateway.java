@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,5 +48,10 @@ public class AppointmentGateway {
 
     public void delete(UUID id) {
         appointmentRepository.deleteById(id);
+    }
+
+    public List<Appointment> findByDoctorIdAndDate(UUID doctorId, LocalDate dateAppointment) {
+        return appointmentRepository.findByDoctorIdAndDate(doctorId, dateAppointment)
+                .stream().map(AppointmentMapper::convert).toList();
     }
 }

@@ -30,7 +30,7 @@ public class AppointmentSchema extends GenericSchema {
     @Column(length = 20, nullable = false)
     private String hour;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", foreignKey = @ForeignKey(name = "fk_appointment_x_doctor"))
     private DoctorSchema doctor;
 
