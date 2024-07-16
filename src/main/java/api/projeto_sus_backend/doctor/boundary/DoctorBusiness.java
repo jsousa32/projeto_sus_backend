@@ -96,7 +96,7 @@ public class DoctorBusiness {
 
         BeanUtils.copyProperties(doctor, doctorDB, "id", "crm", "document", "password");
 
-        doctorGateway.save(doctor);
+        doctorGateway.save(doctorDB);
     }
 
     /**
