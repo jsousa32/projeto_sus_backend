@@ -18,11 +18,9 @@ public class PacientProjections {
         String getSusNumber();
     }
 
-    public interface Resume extends UserProjections.Resume, AppointmentProjections.Resume {
+    public interface Resume extends UserProjections.Resume {
 
         String getSusNumber();
-
-        List<AppointmentProjections.Resume> getAppointments();
     }
 
     public interface Create extends UserProjections.Create {

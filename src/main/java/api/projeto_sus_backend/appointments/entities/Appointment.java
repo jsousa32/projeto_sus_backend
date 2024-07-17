@@ -4,6 +4,7 @@ import api.projeto_sus_backend.appointments.controls.AppointmentProjections;
 import api.projeto_sus_backend.doctor.controls.DoctorProjections;
 import api.projeto_sus_backend.doctor.entities.Doctor;
 import api.projeto_sus_backend.generic.entities.Generic;
+import api.projeto_sus_backend.pacient.entities.Pacient;
 import api.projeto_sus_backend.utils.annotations.ValidTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -40,6 +41,10 @@ public class Appointment extends Generic {
     @JsonView(DoctorProjections.ResumeToAppointments.class)
     private Doctor doctor;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(DoctorProjections.ResumeToAppointments.class)
+    private Pacient pacient;
+
     public UUID getId() {
         return id;
     }
@@ -72,6 +77,14 @@ public class Appointment extends Generic {
         this.doctor = doctor;
     }
 
+    public Pacient getPacient() {
+        return pacient;
+    }
+
+    public void setPacient(Pacient pacient) {
+        this.pacient = pacient;
+    }
+
     /**
      * The Builder of Appointment
      */
@@ -100,6 +113,11 @@ public class Appointment extends Generic {
 
         public Builder setDoctor(Doctor doctor) {
             this.appointment.setDoctor(doctor);
+            return this;
+        }
+
+        public Builder setPacient(Pacient pacient) {
+            this.appointment.setPacient(pacient);
             return this;
         }
 

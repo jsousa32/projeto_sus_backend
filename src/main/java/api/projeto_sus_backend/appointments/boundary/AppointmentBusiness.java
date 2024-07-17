@@ -58,9 +58,9 @@ public class AppointmentBusiness {
 
         validationDateAppointment(appointment);
 
-        Pacient pacient = pacientGateway.findById(pacientId);
+        List<Appointment> appointmentsByPacient = appointmentGateway.findAllAppointmentsByPacientId(pacientId);
 
-        validationPacientHasAnyAppointmentTodayOrWeek(pacient, appointment.getDate());
+        validationPacientHasAnyAppointmentTodayOrWeek(appointmentsByPacient, appointment.getDate());
 
         List<Appointment> appointments = appointmentGateway.findAllAppointmentsByDoctorId(doctorId);
 
@@ -72,11 +72,9 @@ public class AppointmentBusiness {
 
         appointment.setDoctor(doctorGateway.findById(doctorId));
 
-        appointment = appointmentGateway.save(appointment);
+        appointment.setPacient(pacientGateway.findById(pacientId));
 
-        pacient.getAppointments().add(appointment);
-
-        pacientGateway.save(pacient);
+        appointmentGateway.save(appointment);
     }
 
 
@@ -152,18 +150,17 @@ public class AppointmentBusiness {
      * Metodo responsável por atualizar uma consulta
      *
      * @param authenticationToken
-     * @param id                  ;
+     * @param appointmentId       ;
      * @param appointment         ;
      */
-    public void update(JwtAuthenticationToken authenticationToken, UUID id, Appointment appointment) {
-
+    public void update(JwtAuthenticationToken authenticationToken, UUID appointmentId, Appointment appointment) {
         validationDateAppointment(appointment);
 
-        Pacient pacient = pacientGateway.findByAppointmentId(id);
+        List<Appointment> appointmentsByPacient = appointmentGateway.findAllAppointmentsByPacientId(JwtHelper.getId(authenticationToken));
 
-        validationPacientHasAnyAppointmentTodayOrWeek(pacient, appointment.getDate());
+        validationPacientHasAnyAppointmentTodayOrWeek(appointmentsByPacient, appointment.getDate());
 
-        Appointment appointmentDB = appointmentGateway.findById(id);
+        Appointment appointmentDB = appointmentGateway.findById(appointmentId);
 
         List<Appointment> appointments = appointmentGateway.findAllAppointmentsByDoctorId(appointmentDB.getDoctor().getId());
 
@@ -192,12 +189,12 @@ public class AppointmentBusiness {
     /**
      * Metodo responsável por validar se o paciente já possui uma consulta no dia e/ou na semana
      *
-     * @param pacient;
+     * @param appointments;
      * @param date;
      */
-    private void validationPacientHasAnyAppointmentTodayOrWeek(Pacient pacient, LocalDate date) {
+    private void validationPacientHasAnyAppointmentTodayOrWeek(List<Appointment> appointments, LocalDate date) {
 
-        boolean hasAppointmentToday = pacient.getAppointments().stream().anyMatch(a -> a.getDate().equals(date));
+        boolean hasAppointmentToday = appointments.stream().anyMatch(a -> a.getDate().equals(date));
 
         if (hasAppointmentToday) {
             throw new AppointmentExceptions.HasAppointmentAtDate();
@@ -207,7 +204,7 @@ public class AppointmentBusiness {
 
         LocalDate endDayOfWeek = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
-        boolean hasAppointmentOnWeek = pacient.getAppointments().stream()
+        boolean hasAppointmentOnWeek = appointments.stream()
                 .anyMatch(a -> a.getDate().isAfter(startDayOfWeek) && a.getDate().isBefore(endDayOfWeek));
 
         if (hasAppointmentOnWeek) {

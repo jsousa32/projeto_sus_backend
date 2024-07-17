@@ -1,6 +1,7 @@
 package api.projeto_sus_backend.appointments.controls;
 
 import api.projeto_sus_backend.doctor.controls.DoctorProjections;
+import api.projeto_sus_backend.pacient.controls.PacientProjections;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -22,6 +23,8 @@ public class AppointmentProjections {
         String getHour();
 
         DoctorProjections.ResumeToAppointments getDoctor();
+
+        PacientProjections.ResumeToAppointment getPacient();
     }
 
     public interface Resume extends Page {

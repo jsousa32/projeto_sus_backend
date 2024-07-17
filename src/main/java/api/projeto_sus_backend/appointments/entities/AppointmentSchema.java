@@ -2,6 +2,7 @@ package api.projeto_sus_backend.appointments.entities;
 
 import api.projeto_sus_backend.doctor.entities.DoctorSchema;
 import api.projeto_sus_backend.generic.entities.GenericSchema;
+import api.projeto_sus_backend.pacient.entities.PacientSchema;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -33,6 +34,10 @@ public class AppointmentSchema extends GenericSchema {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", foreignKey = @ForeignKey(name = "fk_appointment_x_doctor"))
     private DoctorSchema doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pacient_id", foreignKey = @ForeignKey(name = "fk_appointment_x_pacient"))
+    private PacientSchema pacient;
 
     public UUID getId() {
         return id;
@@ -66,6 +71,14 @@ public class AppointmentSchema extends GenericSchema {
         this.doctor = doctor;
     }
 
+    public PacientSchema getPacient() {
+        return pacient;
+    }
+
+    public void setPacient(PacientSchema pacient) {
+        this.pacient = pacient;
+    }
+
     /**
      * The Builder of AppointmentSchema
      */
@@ -94,6 +107,11 @@ public class AppointmentSchema extends GenericSchema {
 
         public Builder setDoctor(DoctorSchema doctor) {
             this.appointmentSchema.setDoctor(doctor);
+            return this;
+        }
+
+        public Builder setPacient(PacientSchema pacient) {
+            this.appointmentSchema.setPacient(pacient);
             return this;
         }
 

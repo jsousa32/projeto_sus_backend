@@ -26,20 +26,12 @@ public class PacientSchema extends UserSchema {
     @Column(name = "sus_number", length = 15, unique = true, nullable = false)
     private String susNumber;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "pacient_id", foreignKey = @ForeignKey(name = "fk_pacient_x_appointments"))
-    private List<AppointmentSchema> appointments = new ArrayList<>();
-
     public String getSusNumber() {
         return susNumber;
     }
 
     private void setSusNumber(String susNumber) {
         this.susNumber = susNumber;
-    }
-
-    public List<AppointmentSchema> getAppointments() {
-        return appointments;
     }
 
     /**
@@ -92,11 +84,6 @@ public class PacientSchema extends UserSchema {
 
         public Builder setDocument(String document) {
             this.pacientSchema.setDocument(document);
-            return this;
-        }
-
-        public Builder setAppointments(List<AppointmentSchema> appointments) {
-            this.pacientSchema.getAppointments().addAll(appointments);
             return this;
         }
 

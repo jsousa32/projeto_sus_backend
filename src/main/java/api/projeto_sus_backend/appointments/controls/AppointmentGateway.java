@@ -54,4 +54,9 @@ public class AppointmentGateway {
         return appointmentRepository.findByDoctorIdAndDate(doctorId, dateAppointment)
                 .stream().map(AppointmentMapper::convert).toList();
     }
+
+    public List<Appointment> findAllAppointmentsByPacientId(UUID pacientId) {
+        return appointmentRepository.findAllAppointmentsByPacientId(pacientId)
+                .stream().map(AppointmentMapper::convert).toList();
+    }
 }

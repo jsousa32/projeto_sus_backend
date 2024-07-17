@@ -30,20 +30,12 @@ public class Pacient extends User {
     @JsonView({PacientProjections.Page.class, PacientProjections.Resume.class, PacientProjections.ResumeToAppointment.class, PacientProjections.Create.class})
     private String susNumber;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonView(AppointmentProjections.Resume.class)
-    private List<Appointment> appointments = new ArrayList<>();
-
     public String getSusNumber() {
         return susNumber;
     }
 
     public void setSusNumber(String susNumber) {
         this.susNumber = susNumber;
-    }
-
-    public List<Appointment> getAppointments() {
-        return this.appointments;
     }
 
     /**
@@ -97,11 +89,6 @@ public class Pacient extends User {
 
         public Builder setDocument(String document) {
             this.pacient.setDocument(document);
-            return this;
-        }
-
-        public Builder setAppointments(List<Appointment> appointments) {
-            this.pacient.getAppointments().addAll(appointments);
             return this;
         }
 

@@ -21,7 +21,6 @@ public class PacientMapper {
                 .setTelephone(pacient.getTelephone())
                 .setDocument(pacient.getDocument())
                 .setSusNumber(pacient.getSusNumber())
-                .setAppointments(pacient.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .setPermissions(pacient.getPermissions())
                 .setPassword(pacient.getPassword())
                 .setCodeEmailConfirmation(pacient.getCodeEmailConfirmation())
@@ -41,7 +40,6 @@ public class PacientMapper {
                 .setPassword(pacientSchema.getPassword())
                 .setDocument(pacientSchema.getDocument())
                 .setSusNumber(pacientSchema.getSusNumber())
-                .setAppointments(pacientSchema.getAppointments().stream().map(AppointmentMapper::convert).toList())
                 .setPermissions(pacientSchema.getPermissions())
                 .setCodeEmailConfirmation(pacientSchema.getCodeEmailConfirmation())
                 .setEmailConfirmed(pacientSchema.isEmailConfirmed())
@@ -72,7 +70,15 @@ public class PacientMapper {
                 .setTelephone(pacientResume.getTelephone())
                 .setDocument(pacientResume.getDocument())
                 .setSusNumber(pacientResume.getSusNumber())
-                .setAppointments(pacientResume.getAppointments().stream().map(AppointmentMapper::convert).toList())
+                .build();
+    }
+
+    public static Pacient convert(PacientProjections.ResumeToAppointment pacient) {
+        return new Pacient.Builder().builder()
+                .setId(pacient.getId())
+                .setFirstName(pacient.getFirstName())
+                .setLastName(pacient.getLastName())
+                .setSusNumber(pacient.getSusNumber())
                 .build();
     }
 }

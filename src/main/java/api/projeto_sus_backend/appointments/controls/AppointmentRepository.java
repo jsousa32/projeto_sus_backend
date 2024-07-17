@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,4 +52,6 @@ public interface AppointmentRepository extends JpaRepository<AppointmentSchema, 
     Optional<AppointmentProjections.Resume> findByIdResume(@Param("id") UUID id);
 
     List<AppointmentSchema> findByDoctorIdAndDate(@Param("doctorId") UUID doctorId, @Param("dateAppointment") LocalDate dateAppointment);
+
+    List<AppointmentSchema> findAllAppointmentsByPacientId(@Param("doctorId") UUID pacientId);
 }

@@ -57,11 +57,6 @@ public class PacientGateway {
                 .orElseThrow(PacientExceptions.NotFound::new);
     }
 
-    public Pacient findByAppointmentId(UUID id) {
-        return pacientRepository.findByAppointmentId(id).map(PacientMapper::convert)
-                .orElseThrow(PacientExceptions.NotFound::new);
-    }
-
     public void active(UUID id) {
         pacientRepository.active(id);
     }
