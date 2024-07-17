@@ -47,7 +47,9 @@ public class JwtService {
                 .collect(Collectors.joining(", "));
 
         JwtClaimsSet claims = JwtClaimsSet.builder().issuer(ISSUER).issuedAt(createdAt).expiresAt(expiresAt).subject(authentication.getName())
-                .claim("permissions", permissions).build();
+                .claim("permissions", permissions)
+                .claim("userId", ((PrincipalDetails) authentication.getPrincipal()).getId())
+                .build();
 
         String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
@@ -67,6 +69,7 @@ public class JwtService {
 
         return new UserSession.Builder().builder().accessToken(token).name(principal.getName())
                 .setPermissions(principal.getPermissions())
+                .setUserId(principal.getId())
                 .emailConfirmed(principal.isEmailConfirmed()).createdAt(createdAt).expiresAt(expiresAt).build();
     }
 }

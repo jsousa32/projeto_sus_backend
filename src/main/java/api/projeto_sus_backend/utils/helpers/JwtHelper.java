@@ -2,6 +2,8 @@ package api.projeto_sus_backend.utils.helpers;
 
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import java.util.UUID;
+
 /**
  * The Class JwtHelper
  *
@@ -16,5 +18,9 @@ public class JwtHelper {
 
     public static String getUserEmail(JwtAuthenticationToken token) {
         return token.getName();
+    }
+
+    public static UUID getId(JwtAuthenticationToken token) {
+        return (UUID) token.getTokenAttributes().get("userId");
     }
 }

@@ -5,6 +5,7 @@ import api.projeto_sus_backend.user.entities.enums.Permissions;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The Class AccessTokenResponse
@@ -13,6 +14,8 @@ import java.util.List;
  * @sincer 04/07/2024
  */
 public class UserSession {
+
+    private UUID userId;
 
     private String accessToken;
 
@@ -59,6 +62,11 @@ public class UserSession {
 
         public Builder builder() {
             this.userSession = new UserSession();
+            return this;
+        }
+
+        public Builder setUserId(UUID id) {
+            this.userSession.userId = id;
             return this;
         }
 
