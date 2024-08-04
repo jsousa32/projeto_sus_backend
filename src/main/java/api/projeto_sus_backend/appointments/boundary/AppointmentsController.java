@@ -50,7 +50,7 @@ public class AppointmentsController {
     @JsonView(AppointmentProjections.Create.class)
     public ResponseEntity<Void> save(
             JwtAuthenticationToken authenticationToken,
-            @RequestParam(name = "pacientId") UUID pacientId,
+            @RequestParam(name = "pacientId", required = false) UUID pacientId,
             @RequestParam(name = "doctorId") UUID doctorId,
             @Valid @RequestBody Appointment appointment) {
 
@@ -127,10 +127,11 @@ public class AppointmentsController {
     @JsonView(AppointmentProjections.Update.class)
     public ResponseEntity<Void> update(
             JwtAuthenticationToken authenticationToken,
+            @RequestParam(name = "pacientId", required = false) UUID pacientId,
             @RequestParam(name = "id") UUID id,
             @Valid @RequestBody Appointment appointment
     ) {
-        appointmentBusiness.update(authenticationToken, id, appointment);
+        appointmentBusiness.update(authenticationToken,pacientId, id, appointment);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

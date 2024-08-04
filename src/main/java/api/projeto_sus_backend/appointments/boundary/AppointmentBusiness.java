@@ -58,9 +58,11 @@ public class AppointmentBusiness {
 
         validationDateAppointment(appointment);
 
+        pacientId = Objects.isNull(pacientId) ? JwtHelper.getId(authenticationToken) : pacientId;
+
         List<Appointment> appointmentsByPacient = appointmentGateway.findAllAppointmentsByPacientId(pacientId);
 
-        validationPacientHasAnyAppointmentTodayOrWeek(appointmentsByPacient, appointment.getDate());
+        validationPacientHasAnyAppointmentTodayOrWeek(appointmentsByPacient, appointment.getDate(), null);
 
         List<Appointment> appointments = appointmentGateway.findAllAppointmentsByDoctorId(doctorId);
 
@@ -112,8 +114,14 @@ public class AppointmentBusiness {
 
         List<String> avaliableTimes = new ArrayList<>();
 
+        int startHour = 8;
+
+        if (dateAppointment.isEqual(LocalDate.now())) {
+            startHour = LocalTime.now().getHour() + 1;
+        }
+
         if (appointments.isEmpty()) {
-            for (int i = 8; i <= 19; i++) {
+            for (int i = startHour; i <= 19; i++) {
                 avaliableTimes.add(LocalTime.of(i, 0).toString());
             }
 
@@ -124,7 +132,7 @@ public class AppointmentBusiness {
 
         Map<String, List<Appointment>> appointmentPerHour = appointments.stream().collect(Collectors.groupingBy(Appointment::getHour));
 
-        for (int i = 8; i <= 19; i++) {
+        for (int i = startHour; i <= 19; i++) {
             String hour = LocalTime.of(i, 0).toString();
 
             if (appointmentPerHour.containsKey(hour)) {
@@ -149,16 +157,19 @@ public class AppointmentBusiness {
     /**
      * Metodo responsável por atualizar uma consulta
      *
-     * @param authenticationToken
-     * @param appointmentId       ;
-     * @param appointment         ;
+     * @param pacientId;
+     * @param authenticationToken;
+     * @param appointmentId        ;
+     * @param appointment          ;
      */
-    public void update(JwtAuthenticationToken authenticationToken, UUID appointmentId, Appointment appointment) {
+    public void update(JwtAuthenticationToken authenticationToken, UUID pacientId, UUID appointmentId, Appointment appointment) {
         validationDateAppointment(appointment);
 
-        List<Appointment> appointmentsByPacient = appointmentGateway.findAllAppointmentsByPacientId(JwtHelper.getId(authenticationToken));
+        pacientId = Objects.isNull(pacientId) ? JwtHelper.getId(authenticationToken) : pacientId;
 
-        validationPacientHasAnyAppointmentTodayOrWeek(appointmentsByPacient, appointment.getDate());
+        List<Appointment> appointmentsByPacient = appointmentGateway.findAllAppointmentsByPacientId(pacientId);
+
+        validationPacientHasAnyAppointmentTodayOrWeek(appointmentsByPacient, appointment.getDate(), appointmentId);
 
         Appointment appointmentDB = appointmentGateway.findById(appointmentId);
 
@@ -172,7 +183,7 @@ public class AppointmentBusiness {
             throw new AppointmentExceptions.HasntPermission();
         }
 
-        BeanUtils.copyProperties(appointment, appointmentDB, "id", "doctor");
+        BeanUtils.copyProperties(appointment, appointmentDB, "id", "doctor", "pacient");
 
         appointmentGateway.save(appointmentDB);
     }
@@ -192,20 +203,25 @@ public class AppointmentBusiness {
      * @param appointments;
      * @param date;
      */
-    private void validationPacientHasAnyAppointmentTodayOrWeek(List<Appointment> appointments, LocalDate date) {
+    private void validationPacientHasAnyAppointmentTodayOrWeek(List<Appointment> appointments, LocalDate date, UUID appointmentId) {
 
-        boolean hasAppointmentToday = appointments.stream().anyMatch(a -> a.getDate().equals(date));
+        if (date.equals(LocalDate.now())) {
+            boolean hasAppointmentToday = appointments.stream().anyMatch(a -> a.getDate().equals(date));
 
-        if (hasAppointmentToday) {
-            throw new AppointmentExceptions.HasAppointmentAtDate();
+            if (hasAppointmentToday) {
+                throw new AppointmentExceptions.HasAppointmentAtDate();
+            }
         }
 
         LocalDate startDayOfWeek = date.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
 
         LocalDate endDayOfWeek = date.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
 
-        boolean hasAppointmentOnWeek = appointments.stream()
-                .anyMatch(a -> a.getDate().isAfter(startDayOfWeek) && a.getDate().isBefore(endDayOfWeek));
+        boolean hasAppointmentOnWeek = Optional.ofNullable(appointmentId)
+                .map(id -> appointments.stream()
+                        .anyMatch(a -> a.getDate().isAfter(startDayOfWeek) && a.getDate().isBefore(endDayOfWeek) && !a.getId().equals(id)))
+                .orElseGet(() -> appointments.stream()
+                        .anyMatch(a -> a.getDate().isAfter(startDayOfWeek) && a.getDate().isBefore(endDayOfWeek)));
 
         if (hasAppointmentOnWeek) {
             throw new AppointmentExceptions.HasAppointmentAtWeek();
