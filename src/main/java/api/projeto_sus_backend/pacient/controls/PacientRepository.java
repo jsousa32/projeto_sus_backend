@@ -33,6 +33,7 @@ public interface PacientRepository extends JpaRepository<PacientSchema, UUID> {
             AND (
                 UPPER(p.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(p.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(CONCAT(p.firstName, ' ', p.lastName)) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(p.susNumber) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(p.email) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(p.document) LIKE UPPER(CONCAT('%', :filter, '%'))

@@ -33,6 +33,7 @@ public interface DoctorRepository extends JpaRepository<DoctorSchema, UUID> {
             AND (
                 UPPER(d.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(d.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(CONCAT(d.firstName, ' ', d.lastName)) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(d.crm) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(d.email) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(d.document) LIKE UPPER(CONCAT('%', :filter, '%'))
