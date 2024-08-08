@@ -16,11 +16,15 @@ public class JwtHelper {
         return token.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
 
+    public static boolean isDoctor(JwtAuthenticationToken token) {
+        return token.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_DOCTOR"));
+    }
+
     public static String getUserEmail(JwtAuthenticationToken token) {
         return token.getName();
     }
 
     public static UUID getId(JwtAuthenticationToken token) {
-        return (UUID) token.getTokenAttributes().get("userId");
+        return UUID.fromString((String) token.getTokenAttributes().get("userId"));
     }
 }
