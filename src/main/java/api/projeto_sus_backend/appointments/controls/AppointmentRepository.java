@@ -36,9 +36,14 @@ public interface AppointmentRepository extends JpaRepository<AppointmentSchema, 
             SELECT
                 a
             FROM AppointmentSchema a
-            WHERE (
+            JOIN a.pacient p
+            JOIN a.doctor d
+            WHERE d.disabled = false AND p.disabled = false
+            AND (
                 UPPER(a.doctor.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
-                UPPER(a.doctor.lastName) LIKE UPPER(CONCAT('%', :filter, '%'))
+                UPPER(a.doctor.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(a.pacient.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(a.pacient.lastName) LIKE UPPER(CONCAT('%', :filter, '%'))
             )
             """)
     Page<AppointmentProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
