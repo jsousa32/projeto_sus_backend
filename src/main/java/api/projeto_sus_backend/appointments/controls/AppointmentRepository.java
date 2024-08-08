@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,8 +41,12 @@ public interface AppointmentRepository extends JpaRepository<AppointmentSchema, 
             AND (
                 UPPER(a.doctor.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(a.doctor.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(CONCAT(a.doctor.firstName, ' ', a.doctor.lastName)) LIKE UPPER(CONCAT('%', :filter, '%')) OR
                 UPPER(a.pacient.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
-                UPPER(a.pacient.lastName) LIKE UPPER(CONCAT('%', :filter, '%'))
+                UPPER(a.pacient.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(CONCAT(a.pacient.firstName, ' ', a.pacient.lastName)) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                TO_CHAR(a.date, 'DD/MM/YYYY') LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(a.hour) LIKE UPPER(CONCAT('%', :filter, '%'))
             )
             """)
     Page<AppointmentProjections.Page> findAll(@Param("filter") String filter, Pageable pageable);
