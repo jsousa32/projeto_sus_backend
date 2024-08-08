@@ -68,13 +68,14 @@ public class AppointmentsController {
     @GetMapping("all")
     @JsonView(AppointmentProjections.Page.class)
     public ResponseEntity<Page<Appointment>> findAll(
+            JwtAuthenticationToken authenticationToken,
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
             @RequestParam(name = "sorting", required = false) String sorting,
             @RequestParam(name = "filter", required = false, defaultValue = "") String filter
     ) {
 
-        Page<Appointment> response = appointmentBusiness.findAll(filter, CustomPageable.getInstance(page, size, sorting));
+        Page<Appointment> response = appointmentBusiness.findAll(authenticationToken, filter, CustomPageable.getInstance(page, size, sorting));
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

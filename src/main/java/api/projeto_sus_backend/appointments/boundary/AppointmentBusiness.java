@@ -6,7 +6,6 @@ import api.projeto_sus_backend.appointments.controls.AppointmentGateway;
 import api.projeto_sus_backend.appointments.entities.Appointment;
 import api.projeto_sus_backend.doctor.controls.DoctorGateway;
 import api.projeto_sus_backend.pacient.controls.PacientGateway;
-import api.projeto_sus_backend.pacient.entities.Pacient;
 import api.projeto_sus_backend.utils.helpers.JwtHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -83,12 +82,15 @@ public class AppointmentBusiness {
     /**
      * Metodo responsável por retornar todas as consultas paginadas
      *
+     * @param authenticationToken;
      * @param filter;
      * @param pageable;
      * @return Page<Appointment>;
      */
-    public Page<Appointment> findAll(String filter, Pageable pageable) {
-        return appointmentGateway.findAll(filter, pageable);
+    public Page<Appointment> findAll(JwtAuthenticationToken authenticationToken, String filter, Pageable pageable) {
+        return JwtHelper.isDoctor(authenticationToken)
+                ? appointmentGateway.findAllAppointmentsByDoctorId(JwtHelper.getId(authenticationToken), filter, pageable)
+                : appointmentGateway.findAll(filter, pageable);
     }
 
     /**

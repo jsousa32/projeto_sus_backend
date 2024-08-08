@@ -32,6 +32,22 @@ public interface AppointmentRepository extends JpaRepository<AppointmentSchema, 
     List<AppointmentSchema> findAllAppointmentsByDoctorId(@Param("doctorId") UUID doctorId);
 
     @Query("""
+            SELECT a FROM AppointmentSchema a
+            JOIN a.doctor d
+            JOIN a.pacient p
+            WHERE d.id = :doctorId
+            AND p.disabled = false
+            AND (
+                UPPER(a.pacient.firstName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(a.pacient.lastName) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(CONCAT(a.pacient.firstName, ' ', a.pacient.lastName)) LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                TO_CHAR(a.date, 'DD/MM/YYYY') LIKE UPPER(CONCAT('%', :filter, '%')) OR
+                UPPER(a.hour) LIKE UPPER(CONCAT('%', :filter, '%'))
+            )
+            """)
+    Page<AppointmentSchema> findAllAppointmentsByDoctorId(@Param("doctorId") UUID doctorId, @Param("filter") String filter, Pageable pageable);
+
+    @Query("""
             SELECT
                 a
             FROM AppointmentSchema a

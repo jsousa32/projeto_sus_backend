@@ -32,6 +32,10 @@ public class AppointmentGateway {
         return appointmentRepository.findAllAppointmentsByDoctorId(doctorId).stream().map(AppointmentMapper::convert).toList();
     }
 
+    public Page<Appointment> findAllAppointmentsByDoctorId(UUID doctorId, String filter, Pageable pageable) {
+        return appointmentRepository.findAllAppointmentsByDoctorId(doctorId, filter, pageable).map(AppointmentMapper::convert);
+    }
+
     public Page<Appointment> findAll(String filter, Pageable pageable) {
         return appointmentRepository.findAll(filter, pageable).map(AppointmentMapper::convert);
     }
